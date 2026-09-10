@@ -102,12 +102,17 @@ def extract_descriptors(
     return descriptors
 
 
-def save_csv(path: Path, descriptors: np.ndarray, labels: np.ndarray) -> None:
+def save_csv(
+    path: Path,
+    patches: list[tuple[int, int, np.ndarray]],
+    descriptors: np.ndarray,
+    labels: np.ndarray,
+) -> None:
     with path.open("w", newline="", encoding="utf-8") as file:
         writer = csv.writer(file)
         writer.writerow(["recorte", "linha", "coluna", *[f"f{i:02d}" for i in range(24)], "grupo"])
-        for index, (descriptor, label) in enumerate(zip(descriptors, labels)):
-            writer.writerow([index, "", "", *[f"{value:.8f}" for value in descriptor], int(label)])
+        for index, ((y, x, _), descriptor, label) in enumerate(zip(patches, descriptors, labels)):
+            writer.writerow([index, y, x, *[f"{value:.8f}" for value in descriptor], int(label)])
 
 
 def save_montage(path: Path, patches: list[tuple[int, int, np.ndarray]], labels: np.ndarray) -> None:
@@ -135,7 +140,7 @@ def save_overlay(path: Path, image: np.ndarray, patches: list[tuple[int, int, np
         color = colors[int(label) % len(colors)]
         draw.rectangle((x, y, x + 512, y + 512), outline=color, width=8)
         draw.text((x + 12, y + 12), str(int(label) + 1), fill=color)
-    output.save(path)
+    output.save(path, quality=90, optimize=True)
 
 
 def main() -> None:
@@ -158,9 +163,9 @@ def main() -> None:
     labels = model.fit_predict(standardized)
 
     np.save(args.output / "descritores_24d.npy", descriptors)
-    save_csv(args.output / "descritores_24d.csv", descriptors, labels)
+    save_csv(args.output / "descritores_24d.csv", patches, descriptors, labels)
     save_montage(args.output / "categorizacao_recortes.png", patches, labels)
-    save_overlay(args.output / "categorizacao_imagem.png", image, patches, labels)
+    save_overlay(args.output / "categorizacao_imagem.jpg", image, patches, labels)
     print(f"Imagem: {image.shape[1]}x{image.shape[0]} pixels, tons de cinza")
     print(f"Recortes analisados: {len(patches)}")
     print(f"Descritores: {descriptors.shape} (8 filtros x 3 escalas)")
