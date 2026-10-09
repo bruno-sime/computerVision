@@ -2,6 +2,8 @@
 
 Implementacao classica, sem inteligencia artificial, para analisar `image.jpg`.
 
+O relatorio academico completo esta em [RELATORIO.md](RELATORIO.md).
+
 ## O que o programa faz
 
 1. Carrega a fotografia colorida e converte para tons de cinza.
