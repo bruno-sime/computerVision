@@ -1,0 +1,2120 @@
+{
+  "application": "Retificacao perspectiva de tabuleiro plano",
+  "input": "/Users/brunosime/Documents/2026/2026:2/VISAO COMPUTACIONAL/computerVision/T02/images/calibration",
+  "calibration": "/Users/brunosime/Documents/2026/2026:2/VISAO COMPUTACIONAL/computerVision/T02/results/calibration.npz",
+  "lens_distortion_corrected": true,
+  "pattern_inner_corners": [
+    9,
+    6
+  ],
+  "board_squares": [
+    10,
+    7
+  ],
+  "square_px": 100,
+  "images_total": 30,
+  "images_successful": 30,
+  "images_failed": 0,
+  "records": [
+    {
+      "image": "calib_1791394454407_01.jpg",
+      "status": "ok",
+      "lens_distortion_corrected": true,
+      "input_size_px": [
+        1920,
+        1080
+      ],
+      "output_size_px": [
+        1000,
+        700
+      ],
+      "source_corners_px": [
+        [
+          1260.5169677734375,
+          669.9630126953125
+        ],
+        [
+          678.6220092773438,
+          630.0650024414062
+        ],
+        [
+          636.5050048828125,
+          294.989013671875
+        ],
+        [
+          1285.1280517578125,
+          285.656005859375
+        ]
+      ],
+      "destination_corners_px": [
+        [
+          100.0,
+          100.0
+        ],
+        [
+          900.0,
+          100.0
+        ],
+        [
+          900.0,
+          600.0
+        ],
+        [
+          100.0,
+          600.0
+        ]
+      ],
+      "homography": [
+        [
+          -1.287967323,
+          -0.1185977184,
+          1812.7648995947
+        ],
+        [
+          0.1359351151,
+          -1.6365816811,
+          1034.9047321054
+        ],
+        [
+          0.0002608474,
+          -0.0003444384,
+          1.0
+        ]
+      ],
+      "control_point_rmse_px": 0.0,
+      "annotated": "T03/results/annotated/calib_1791394454407_01_corners.jpg",
+      "rectified": "T03/results/rectified/calib_1791394454407_01_topdown.jpg",
+      "comparison": "T03/results/comparisons/calib_1791394454407_01_comparison.jpg"
+    },
+    {
+      "image": "calib_1791394457336_02.jpg",
+      "status": "ok",
+      "lens_distortion_corrected": true,
+      "input_size_px": [
+        1920,
+        1080
+      ],
+      "output_size_px": [
+        1000,
+        700
+      ],
+      "source_corners_px": [
+        [
+          1311.448974609375,
+          659.6099853515625
+        ],
+        [
+          813.5659790039062,
+          582.8889770507812
+        ],
+        [
+          755.8939819335938,
+          283.45599365234375
+        ],
+        [
+          1330.626953125,
+          273.2969970703125
+        ]
+      ],
+      "destination_corners_px": [
+        [
+          100.0,
+          100.0
+        ],
+        [
+          900.0,
+          100.0
+        ],
+        [
+          900.0,
+          600.0
+        ],
+        [
+          100.0,
+          600.0
+        ]
+      ],
+      "homography": [
+        [
+          -1.8760580788,
+          -0.1722192412,
+          2731.6771282883
+        ],
+        [
+          0.4544046421,
+          -2.4933852327,
+          1206.4564614326
+        ],
+        [
+          0.0008175306,
+          -0.0007502991,
+          1.0
+        ]
+      ],
+      "control_point_rmse_px": 0.0,
+      "annotated": "T03/results/annotated/calib_1791394457336_02_corners.jpg",
+      "rectified": "T03/results/rectified/calib_1791394457336_02_topdown.jpg",
+      "comparison": "T03/results/comparisons/calib_1791394457336_02_comparison.jpg"
+    },
+    {
+      "image": "calib_1791394459711_03.jpg",
+      "status": "ok",
+      "lens_distortion_corrected": true,
+      "input_size_px": [
+        1920,
+        1080
+      ],
+      "output_size_px": [
+        1000,
+        700
+      ],
+      "source_corners_px": [
+        [
+          1358.885986328125,
+          653.4530029296875
+        ],
+        [
+          714.27197265625,
+          627.1190185546875
+        ],
+        [
+          755.1959838867188,
+          195.58399963378906
+        ],
+        [
+          1401.2259521484375,
+          261.6409912109375
+        ]
+      ],
+      "destination_corners_px": [
+        [
+          100.0,
+          100.0
+        ],
+        [
+          900.0,
+          100.0
+        ],
+        [
+          900.0,
+          600.0
+        ],
+        [
+          100.0,
+          600.0
+        ]
+      ],
+      "homography": [
+        [
+          -1.1148972143,
+          -0.122134131,
+          1675.9465069718
+        ],
+        [
+          0.0299901178,
+          -1.0418865961,
+          721.1894931902
+        ],
+        [
+          -0.0001245016,
+          -3.00324e-05,
+          1.0
+        ]
+      ],
+      "control_point_rmse_px": 0.0,
+      "annotated": "T03/results/annotated/calib_1791394459711_03_corners.jpg",
+      "rectified": "T03/results/rectified/calib_1791394459711_03_topdown.jpg",
+      "comparison": "T03/results/comparisons/calib_1791394459711_03_comparison.jpg"
+    },
+    {
+      "image": "calib_1791394461554_04.jpg",
+      "status": "ok",
+      "lens_distortion_corrected": true,
+      "input_size_px": [
+        1920,
+        1080
+      ],
+      "output_size_px": [
+        1000,
+        700
+      ],
+      "source_corners_px": [
+        [
+          1086.800048828125,
+          648.7130126953125
+        ],
+        [
+          459.50299072265625,
+          630.3889770507812
+        ],
+        [
+          435.2560119628906,
+          239.05299377441406
+        ],
+        [
+          1110.9639892578125,
+          254.23899841308594
+        ]
+      ],
+      "destination_corners_px": [
+        [
+          100.0,
+          100.0
+        ],
+        [
+          900.0,
+          100.0
+        ],
+        [
+          900.0,
+          600.0
+        ],
+        [
+          100.0,
+          600.0
+        ]
+      ],
+      "homography": [
+        [
+          -1.1407689643,
+          -0.0877361141,
+          1387.4460894785
+        ],
+        [
+          0.0382060117,
+          -1.2549776565,
+          863.3408810548
+        ],
+        [
+          2.06548e-05,
+          -0.0001772981,
+          1.0
+        ]
+      ],
+      "control_point_rmse_px": 0.0,
+      "annotated": "T03/results/annotated/calib_1791394461554_04_corners.jpg",
+      "rectified": "T03/results/rectified/calib_1791394461554_04_topdown.jpg",
+      "comparison": "T03/results/comparisons/calib_1791394461554_04_comparison.jpg"
+    },
+    {
+      "image": "calib_1791394463409_05.jpg",
+      "status": "ok",
+      "lens_distortion_corrected": true,
+      "input_size_px": [
+        1920,
+        1080
+      ],
+      "output_size_px": [
+        1000,
+        700
+      ],
+      "source_corners_px": [
+        [
+          1132.7490234375,
+          654.156005859375
+        ],
+        [
+          574.2160034179688,
+          587.2760009765625
+        ],
+        [
+          510.5870056152344,
+          253.9340057373047
+        ],
+        [
+          1158.5240478515625,
+          256.6679992675781
+        ]
+      ],
+      "destination_corners_px": [
+        [
+          100.0,
+          100.0
+        ],
+        [
+          900.0,
+          100.0
+        ],
+        [
+          900.0,
+          600.0
+        ],
+        [
+          100.0,
+          600.0
+        ]
+      ],
+      "homography": [
+        [
+          -1.28147659,
+          -0.1350281888,
+          1650.7520754856
+        ],
+        [
+          0.2346284397,
+          -1.690519017,
+          950.9200057511
+        ],
+        [
+          0.0003812427,
+          -0.0004945896,
+          1.0
+        ]
+      ],
+      "control_point_rmse_px": 0.0,
+      "annotated": "T03/results/annotated/calib_1791394463409_05_corners.jpg",
+      "rectified": "T03/results/rectified/calib_1791394463409_05_topdown.jpg",
+      "comparison": "T03/results/comparisons/calib_1791394463409_05_comparison.jpg"
+    },
+    {
+      "image": "calib_1791394464989_06.jpg",
+      "status": "ok",
+      "lens_distortion_corrected": true,
+      "input_size_px": [
+        1920,
+        1080
+      ],
+      "output_size_px": [
+        1000,
+        700
+      ],
+      "source_corners_px": [
+        [
+          1138.6009521484375,
+          646.4099731445312
+        ],
+        [
+          566.2990112304688,
+          622.2880249023438
+        ],
+        [
+          560.39697265625,
+          266.364990234375
+        ],
+        [
+          1156.1719970703125,
+          258.0849914550781
+        ]
+      ],
+      "destination_corners_px": [
+        [
+          100.0,
+          100.0
+        ],
+        [
+          900.0,
+          100.0
+        ],
+        [
+          900.0,
+          600.0
+        ],
+        [
+          100.0,
+          600.0
+        ]
+      ],
+      "homography": [
+        [
+          -1.4114815429,
+          -0.0759305159,
+          1767.7742066536
+        ],
+        [
+          0.079565575,
+          -1.5054362079,
+          994.1135512916
+        ],
+        [
+          0.0001659089,
+          -0.000113122,
+          1.0
+        ]
+      ],
+      "control_point_rmse_px": 0.0,
+      "annotated": "T03/results/annotated/calib_1791394464989_06_corners.jpg",
+      "rectified": "T03/results/rectified/calib_1791394464989_06_topdown.jpg",
+      "comparison": "T03/results/comparisons/calib_1791394464989_06_comparison.jpg"
+    },
+    {
+      "image": "calib_1791394467107_07.jpg",
+      "status": "ok",
+      "lens_distortion_corrected": true,
+      "input_size_px": [
+        1920,
+        1080
+      ],
+      "output_size_px": [
+        1000,
+        700
+      ],
+      "source_corners_px": [
+        [
+          1197.6090087890625,
+          649.9639892578125
+        ],
+        [
+          531.7230224609375,
+          657.9749755859375
+        ],
+        [
+          547.9609985351562,
+          202.8419952392578
+        ],
+        [
+          1212.1319580078125,
+          253.468994140625
+        ]
+      ],
+      "destination_corners_px": [
+        [
+          100.0,
+          100.0
+        ],
+        [
+          900.0,
+          100.0
+        ],
+        [
+          900.0,
+          600.0
+        ],
+        [
+          100.0,
+          600.0
+        ]
+      ],
+      "homography": [
+        [
+          -1.1018804871,
+          -0.0404730442,
+          1424.5324688932
+        ],
+        [
+          -0.0293944555,
+          -0.9929944568,
+          759.2179931261
+        ],
+        [
+          -0.0001745712,
+          -7.5173e-06,
+          1.0
+        ]
+      ],
+      "control_point_rmse_px": 0.0,
+      "annotated": "T03/results/annotated/calib_1791394467107_07_corners.jpg",
+      "rectified": "T03/results/rectified/calib_1791394467107_07_topdown.jpg",
+      "comparison": "T03/results/comparisons/calib_1791394467107_07_comparison.jpg"
+    },
+    {
+      "image": "calib_1791394468947_08.jpg",
+      "status": "ok",
+      "lens_distortion_corrected": true,
+      "input_size_px": [
+        1920,
+        1080
+      ],
+      "output_size_px": [
+        1000,
+        700
+      ],
+      "source_corners_px": [
+        [
+          1218.3389892578125,
+          641.7540283203125
+        ],
+        [
+          723.22900390625,
+          546.22802734375
+        ],
+        [
+          656.3460083007812,
+          237.32200622558594
+        ],
+        [
+          1246.8199462890625,
+          241.47900390625
+        ]
+      ],
+      "destination_corners_px": [
+        [
+          100.0,
+          100.0
+        ],
+        [
+          900.0,
+          100.0
+        ],
+        [
+          900.0,
+          600.0
+        ],
+        [
+          100.0,
+          600.0
+        ]
+      ],
+      "homography": [
+        [
+          -1.7612301023,
+          -0.216569558,
+          2435.2584330984
+        ],
+        [
+          0.5309238064,
+          -2.3896890859,
+          1037.2463004717
+        ],
+        [
+          0.0008628271,
+          -0.0008511493,
+          1.0
+        ]
+      ],
+      "control_point_rmse_px": 0.0,
+      "annotated": "T03/results/annotated/calib_1791394468947_08_corners.jpg",
+      "rectified": "T03/results/rectified/calib_1791394468947_08_topdown.jpg",
+      "comparison": "T03/results/comparisons/calib_1791394468947_08_comparison.jpg"
+    },
+    {
+      "image": "calib_1791394470533_09.jpg",
+      "status": "ok",
+      "lens_distortion_corrected": true,
+      "input_size_px": [
+        1920,
+        1080
+      ],
+      "output_size_px": [
+        1000,
+        700
+      ],
+      "source_corners_px": [
+        [
+          1160.136962890625,
+          850.2009887695312
+        ],
+        [
+          635.8319702148438,
+          778.7620239257812
+        ],
+        [
+          562.3610229492188,
+          464.9049987792969
+        ],
+        [
+          1149.7889404296875,
+          449.9729919433594
+        ]
+      ],
+      "destination_corners_px": [
+        [
+          100.0,
+          100.0
+        ],
+        [
+          900.0,
+          100.0
+        ],
+        [
+          900.0,
+          600.0
+        ],
+        [
+          100.0,
+          600.0
+        ]
+      ],
+      "homography": [
+        [
+          -1.4092272467,
+          -0.0133586019,
+          1767.6346156116
+        ],
+        [
+          0.2973743189,
+          -1.822850436,
+          1326.174621728
+        ],
+        [
+          0.0005598262,
+          -0.0005124381,
+          1.0
+        ]
+      ],
+      "control_point_rmse_px": 0.0,
+      "annotated": "T03/results/annotated/calib_1791394470533_09_corners.jpg",
+      "rectified": "T03/results/rectified/calib_1791394470533_09_topdown.jpg",
+      "comparison": "T03/results/comparisons/calib_1791394470533_09_comparison.jpg"
+    },
+    {
+      "image": "calib_1791394472387_10.jpg",
+      "status": "ok",
+      "lens_distortion_corrected": true,
+      "input_size_px": [
+        1920,
+        1080
+      ],
+      "output_size_px": [
+        1000,
+        700
+      ],
+      "source_corners_px": [
+        [
+          1163.4420166015625,
+          835.6920166015625
+        ],
+        [
+          549.6589965820312,
+          844.9030151367188
+        ],
+        [
+          569.7440185546875,
+          488.6409912109375
+        ],
+        [
+          1145.1949462890625,
+          456.8940124511719
+        ]
+      ],
+      "destination_corners_px": [
+        [
+          100.0,
+          100.0
+        ],
+        [
+          900.0,
+          100.0
+        ],
+        [
+          900.0,
+          600.0
+        ],
+        [
+          100.0,
+          600.0
+        ]
+      ],
+      "homography": [
+        [
+          -1.6401305036,
+          0.1021724955,
+          1958.6868707484
+        ],
+        [
+          -0.0104537807,
+          -1.654008805,
+          1530.2784709205
+        ],
+        [
+          0.0001470495,
+          0.0002245575,
+          1.0
+        ]
+      ],
+      "control_point_rmse_px": 0.0,
+      "annotated": "T03/results/annotated/calib_1791394472387_10_corners.jpg",
+      "rectified": "T03/results/rectified/calib_1791394472387_10_topdown.jpg",
+      "comparison": "T03/results/comparisons/calib_1791394472387_10_comparison.jpg"
+    },
+    {
+      "image": "calib_1791394475384_11.jpg",
+      "status": "ok",
+      "lens_distortion_corrected": true,
+      "input_size_px": [
+        1920,
+        1080
+      ],
+      "output_size_px": [
+        1000,
+        700
+      ],
+      "source_corners_px": [
+        [
+          1238.5269775390625,
+          490.7070007324219
+        ],
+        [
+          690.4710083007812,
+          455.80499267578125
+        ],
+        [
+          640.9089965820312,
+          119.61599731445312
+        ],
+        [
+          1264.4200439453125,
+          96.74199676513672
+        ]
+      ],
+      "destination_corners_px": [
+        [
+          100.0,
+          100.0
+        ],
+        [
+          900.0,
+          100.0
+        ],
+        [
+          900.0,
+          600.0
+        ],
+        [
+          100.0,
+          600.0
+        ]
+      ],
+      "homography": [
+        [
+          -1.4588208409,
+          -0.1427384811,
+          1996.1878820779
+        ],
+        [
+          0.1442504905,
+          -1.7864750075,
+          817.3337217844
+        ],
+        [
+          0.0003332586,
+          -0.0004466865,
+          1.0
+        ]
+      ],
+      "control_point_rmse_px": 0.0,
+      "annotated": "T03/results/annotated/calib_1791394475384_11_corners.jpg",
+      "rectified": "T03/results/rectified/calib_1791394475384_11_topdown.jpg",
+      "comparison": "T03/results/comparisons/calib_1791394475384_11_comparison.jpg"
+    },
+    {
+      "image": "calib_1791394478892_12.jpg",
+      "status": "ok",
+      "lens_distortion_corrected": false,
+      "input_size_px": [
+        1920,
+        1080
+      ],
+      "output_size_px": [
+        1000,
+        700
+      ],
+      "source_corners_px": [
+        [
+          1776.72802734375,
+          579.4840087890625
+        ],
+        [
+          1252.4930419921875,
+          492.6029968261719
+        ],
+        [
+          1328.5279541015625,
+          185.89199829101562
+        ],
+        [
+          1871.76904296875,
+          258.9519958496094
+        ]
+      ],
+      "destination_corners_px": [
+        [
+          100.0,
+          100.0
+        ],
+        [
+          900.0,
+          100.0
+        ],
+        [
+          900.0,
+          600.0
+        ],
+        [
+          100.0,
+          600.0
+        ]
+      ],
+      "homography": [
+        [
+          -1.6147798431,
+          -0.4892746559,
+          3270.1824611382
+        ],
+        [
+          0.310298957,
+          -1.8057920064,
+          612.7425394664
+        ],
+        [
+          0.0001216408,
+          -6.86935e-05,
+          1.0
+        ]
+      ],
+      "control_point_rmse_px": 0.0,
+      "annotated": "T03/results/annotated/calib_1791394478892_12_corners.jpg",
+      "rectified": "T03/results/rectified/calib_1791394478892_12_topdown.jpg",
+      "comparison": "T03/results/comparisons/calib_1791394478892_12_comparison.jpg"
+    },
+    {
+      "image": "calib_1791394481332_13.jpg",
+      "status": "ok",
+      "lens_distortion_corrected": true,
+      "input_size_px": [
+        1920,
+        1080
+      ],
+      "output_size_px": [
+        1000,
+        700
+      ],
+      "source_corners_px": [
+        [
+          1026.887939453125,
+          654.7940063476562
+        ],
+        [
+          404.1600036621094,
+          684.8400268554688
+        ],
+        [
+          373.1650085449219,
+          288.1629943847656
+        ],
+        [
+          1027.9189453125,
+          279.302001953125
+        ]
+      ],
+      "destination_corners_px": [
+        [
+          100.0,
+          100.0
+        ],
+        [
+          900.0,
+          100.0
+        ],
+        [
+          900.0,
+          600.0
+        ],
+        [
+          100.0,
+          600.0
+        ]
+      ],
+      "homography": [
+        [
+          -1.1537718084,
+          -0.0140743435,
+          1278.3082772623
+        ],
+        [
+          -0.0651202066,
+          -1.1881224336,
+          929.1440443353
+        ],
+        [
+          -8.32143e-05,
+          -0.0001093034,
+          1.0
+        ]
+      ],
+      "control_point_rmse_px": 0.0,
+      "annotated": "T03/results/annotated/calib_1791394481332_13_corners.jpg",
+      "rectified": "T03/results/rectified/calib_1791394481332_13_topdown.jpg",
+      "comparison": "T03/results/comparisons/calib_1791394481332_13_comparison.jpg"
+    },
+    {
+      "image": "calib_1791394484857_14.jpg",
+      "status": "ok",
+      "lens_distortion_corrected": true,
+      "input_size_px": [
+        1920,
+        1080
+      ],
+      "output_size_px": [
+        1000,
+        700
+      ],
+      "source_corners_px": [
+        [
+          887.594970703125,
+          678.27197265625
+        ],
+        [
+          251.60499572753906,
+          725.9710083007812
+        ],
+        [
+          201.197998046875,
+          321.4840087890625
+        ],
+        [
+          874.114013671875,
+          297.7309875488281
+        ]
+      ],
+      "destination_corners_px": [
+        [
+          100.0,
+          100.0
+        ],
+        [
+          900.0,
+          100.0
+        ],
+        [
+          900.0,
+          600.0
+        ],
+        [
+          100.0,
+          600.0
+        ]
+      ],
+      "homography": [
+        [
+          -1.130896422,
+          0.0284144702,
+          1068.3297969293
+        ],
+        [
+          -0.096325481,
+          -1.1678597188,
+          961.4486390034
+        ],
+        [
+          -9.58296e-05,
+          -0.0001130756,
+          1.0
+        ]
+      ],
+      "control_point_rmse_px": 0.0,
+      "annotated": "T03/results/annotated/calib_1791394484857_14_corners.jpg",
+      "rectified": "T03/results/rectified/calib_1791394484857_14_topdown.jpg",
+      "comparison": "T03/results/comparisons/calib_1791394484857_14_comparison.jpg"
+    },
+    {
+      "image": "calib_1791394486960_15.jpg",
+      "status": "ok",
+      "lens_distortion_corrected": true,
+      "input_size_px": [
+        1920,
+        1080
+      ],
+      "output_size_px": [
+        1000,
+        700
+      ],
+      "source_corners_px": [
+        [
+          853.0419921875,
+          865.8579711914062
+        ],
+        [
+          286.489013671875,
+          896.9299926757812
+        ],
+        [
+          214.802001953125,
+          542.3250122070312
+        ],
+        [
+          813.6599731445312,
+          480.4580078125
+        ]
+      ],
+      "destination_corners_px": [
+        [
+          100.0,
+          100.0
+        ],
+        [
+          900.0,
+          100.0
+        ],
+        [
+          900.0,
+          600.0
+        ],
+        [
+          100.0,
+          600.0
+        ]
+      ],
+      "homography": [
+        [
+          -1.2161887875,
+          0.1078687378,
+          1038.0656240149
+        ],
+        [
+          -0.0602485839,
+          -1.3118486045,
+          1281.2734558505
+        ],
+        [
+          0.0001073784,
+          -0.0001750349,
+          1.0
+        ]
+      ],
+      "control_point_rmse_px": 0.0,
+      "annotated": "T03/results/annotated/calib_1791394486960_15_corners.jpg",
+      "rectified": "T03/results/rectified/calib_1791394486960_15_topdown.jpg",
+      "comparison": "T03/results/comparisons/calib_1791394486960_15_comparison.jpg"
+    },
+    {
+      "image": "calib_1791394488543_16.jpg",
+      "status": "ok",
+      "lens_distortion_corrected": true,
+      "input_size_px": [
+        1920,
+        1080
+      ],
+      "output_size_px": [
+        1000,
+        700
+      ],
+      "source_corners_px": [
+        [
+          997.4000244140625,
+          690.2620239257812
+        ],
+        [
+          536.3560180664062,
+          687.47998046875
+        ],
+        [
+          484.06298828125,
+          397.4830017089844
+        ],
+        [
+          984.3109741210938,
+          362.35101318359375
+        ]
+      ],
+      "destination_corners_px": [
+        [
+          100.0,
+          100.0
+        ],
+        [
+          900.0,
+          100.0
+        ],
+        [
+          900.0,
+          600.0
+        ],
+        [
+          100.0,
+          600.0
+        ]
+      ],
+      "homography": [
+        [
+          -1.5519906908,
+          0.030955944,
+          1628.2490479367
+        ],
+        [
+          0.0340654314,
+          -1.7374448546,
+          1266.9769267608
+        ],
+        [
+          0.000237709,
+          -0.0003194198,
+          1.0
+        ]
+      ],
+      "control_point_rmse_px": 0.0,
+      "annotated": "T03/results/annotated/calib_1791394488543_16_corners.jpg",
+      "rectified": "T03/results/rectified/calib_1791394488543_16_topdown.jpg",
+      "comparison": "T03/results/comparisons/calib_1791394488543_16_comparison.jpg"
+    },
+    {
+      "image": "calib_1791394491212_17.jpg",
+      "status": "ok",
+      "lens_distortion_corrected": true,
+      "input_size_px": [
+        1920,
+        1080
+      ],
+      "output_size_px": [
+        1000,
+        700
+      ],
+      "source_corners_px": [
+        [
+          1203.2320556640625,
+          673.5490112304688
+        ],
+        [
+          415.42999267578125,
+          687.344970703125
+        ],
+        [
+          353.27099609375,
+          197.13400268554688
+        ],
+        [
+          1197.6500244140625,
+          157.51400756835938
+        ]
+      ],
+      "destination_corners_px": [
+        [
+          100.0,
+          100.0
+        ],
+        [
+          900.0,
+          100.0
+        ],
+        [
+          900.0,
+          600.0
+        ],
+        [
+          100.0,
+          600.0
+        ]
+      ],
+      "homography": [
+        [
+          -0.9326674897,
+          -0.0041203719,
+          1221.7105590669
+        ],
+        [
+          -0.0123934164,
+          -1.0222644431,
+          800.1774152793
+        ],
+        [
+          5.25966e-05,
+          -0.0001426497,
+          1.0
+        ]
+      ],
+      "control_point_rmse_px": 0.0,
+      "annotated": "T03/results/annotated/calib_1791394491212_17_corners.jpg",
+      "rectified": "T03/results/rectified/calib_1791394491212_17_topdown.jpg",
+      "comparison": "T03/results/comparisons/calib_1791394491212_17_comparison.jpg"
+    },
+    {
+      "image": "calib_1791394492802_18.jpg",
+      "status": "ok",
+      "lens_distortion_corrected": true,
+      "input_size_px": [
+        1920,
+        1080
+      ],
+      "output_size_px": [
+        1000,
+        700
+      ],
+      "source_corners_px": [
+        [
+          896.4290161132812,
+          696.5689697265625
+        ],
+        [
+          219.81300354003906,
+          722.7509765625
+        ],
+        [
+          135.35800170898438,
+          287.0159912109375
+        ],
+        [
+          864.6110229492188,
+          208.50799560546875
+        ]
+      ],
+      "destination_corners_px": [
+        [
+          100.0,
+          100.0
+        ],
+        [
+          900.0,
+          100.0
+        ],
+        [
+          900.0,
+          600.0
+        ],
+        [
+          100.0,
+          600.0
+        ]
+      ],
+      "homography": [
+        [
+          -1.0349693087,
+          0.0489466627,
+          991.8622539593
+        ],
+        [
+          -0.0293721924,
+          -1.1150634934,
+          901.2292369627
+        ],
+        [
+          0.0001302577,
+          -0.0001937519,
+          1.0
+        ]
+      ],
+      "control_point_rmse_px": 0.0,
+      "annotated": "T03/results/annotated/calib_1791394492802_18_corners.jpg",
+      "rectified": "T03/results/rectified/calib_1791394492802_18_topdown.jpg",
+      "comparison": "T03/results/comparisons/calib_1791394492802_18_comparison.jpg"
+    },
+    {
+      "image": "calib_1791394494655_19.jpg",
+      "status": "ok",
+      "lens_distortion_corrected": true,
+      "input_size_px": [
+        1920,
+        1080
+      ],
+      "output_size_px": [
+        1000,
+        700
+      ],
+      "source_corners_px": [
+        [
+          1427.447998046875,
+          782.156005859375
+        ],
+        [
+          677.8380126953125,
+          697.8410034179688
+        ],
+        [
+          696.0570068359375,
+          250.16400146484375
+        ],
+        [
+          1488.16796875,
+          311.85400390625
+        ]
+      ],
+      "destination_corners_px": [
+        [
+          100.0,
+          100.0
+        ],
+        [
+          900.0,
+          100.0
+        ],
+        [
+          900.0,
+          600.0
+        ],
+        [
+          100.0,
+          600.0
+        ]
+      ],
+      "homography": [
+        [
+          -1.0247602905,
+          -0.1445063355,
+          1679.7458344432
+        ],
+        [
+          0.1380761934,
+          -1.1602853456,
+          814.3552226285
+        ],
+        [
+          8.81372e-05,
+          -0.0001106373,
+          1.0
+        ]
+      ],
+      "control_point_rmse_px": 0.0,
+      "annotated": "T03/results/annotated/calib_1791394494655_19_corners.jpg",
+      "rectified": "T03/results/rectified/calib_1791394494655_19_topdown.jpg",
+      "comparison": "T03/results/comparisons/calib_1791394494655_19_comparison.jpg"
+    },
+    {
+      "image": "calib_1791394496238_20.jpg",
+      "status": "ok",
+      "lens_distortion_corrected": true,
+      "input_size_px": [
+        1920,
+        1080
+      ],
+      "output_size_px": [
+        1000,
+        700
+      ],
+      "source_corners_px": [
+        [
+          1217.6600341796875,
+          788.343994140625
+        ],
+        [
+          539.2239990234375,
+          828.8740234375
+        ],
+        [
+          537.7979736328125,
+          430.09698486328125
+        ],
+        [
+          1173.5279541015625,
+          395.8269958496094
+        ]
+      ],
+      "destination_corners_px": [
+        [
+          100.0,
+          100.0
+        ],
+        [
+          900.0,
+          100.0
+        ],
+        [
+          900.0,
+          600.0
+        ],
+        [
+          100.0,
+          600.0
+        ]
+      ],
+      "homography": [
+        [
+          -1.3459517606,
+          0.1695722994,
+          1618.9506647696
+        ],
+        [
+          -0.0811364688,
+          -1.3300182566,
+          1261.0280125597
+        ],
+        [
+          -5.8607e-06,
+          0.0001830851,
+          1.0
+        ]
+      ],
+      "control_point_rmse_px": 0.0,
+      "annotated": "T03/results/annotated/calib_1791394496238_20_corners.jpg",
+      "rectified": "T03/results/rectified/calib_1791394496238_20_topdown.jpg",
+      "comparison": "T03/results/comparisons/calib_1791394496238_20_comparison.jpg"
+    },
+    {
+      "image": "calib_1791394502084_21.jpg",
+      "status": "ok",
+      "lens_distortion_corrected": true,
+      "input_size_px": [
+        1920,
+        1080
+      ],
+      "output_size_px": [
+        1000,
+        700
+      ],
+      "source_corners_px": [
+        [
+          1181.675048828125,
+          962.8179931640625
+        ],
+        [
+          633.4979858398438,
+          901.2949829101562
+        ],
+        [
+          608.1820068359375,
+          570.2429809570312
+        ],
+        [
+          1188.718994140625,
+          578.3759765625
+        ]
+      ],
+      "destination_corners_px": [
+        [
+          100.0,
+          100.0
+        ],
+        [
+          900.0,
+          100.0
+        ],
+        [
+          900.0,
+          600.0
+        ],
+        [
+          100.0,
+          600.0
+        ]
+      ],
+      "homography": [
+        [
+          -1.4604508001,
+          -0.0475528409,
+          1890.7823125914
+        ],
+        [
+          0.2180267011,
+          -1.6713109377,
+          1470.7507224048
+        ],
+        [
+          0.0003271848,
+          -0.0002019474,
+          1.0
+        ]
+      ],
+      "control_point_rmse_px": 0.0,
+      "annotated": "T03/results/annotated/calib_1791394502084_21_corners.jpg",
+      "rectified": "T03/results/rectified/calib_1791394502084_21_topdown.jpg",
+      "comparison": "T03/results/comparisons/calib_1791394502084_21_comparison.jpg"
+    },
+    {
+      "image": "calib_1791394503959_22.jpg",
+      "status": "ok",
+      "lens_distortion_corrected": true,
+      "input_size_px": [
+        1920,
+        1080
+      ],
+      "output_size_px": [
+        1000,
+        700
+      ],
+      "source_corners_px": [
+        [
+          1129.0179443359375,
+          970.2589721679688
+        ],
+        [
+          517.801025390625,
+          947.4240112304688
+        ],
+        [
+          544.9959716796875,
+          572.7899780273438
+        ],
+        [
+          1118.4000244140625,
+          615.93798828125
+        ]
+      ],
+      "destination_corners_px": [
+        [
+          100.0,
+          100.0
+        ],
+        [
+          900.0,
+          100.0
+        ],
+        [
+          900.0,
+          600.0
+        ],
+        [
+          100.0,
+          600.0
+        ]
+      ],
+      "homography": [
+        [
+          -1.4622999332,
+          0.0612057445,
+          1695.4685972064
+        ],
+        [
+          0.0397851821,
+          -1.3629497691,
+          1381.3871545497
+        ],
+        [
+          -0.0001179729,
+          0.0001773858,
+          1.0
+        ]
+      ],
+      "control_point_rmse_px": 0.0,
+      "annotated": "T03/results/annotated/calib_1791394503959_22_corners.jpg",
+      "rectified": "T03/results/rectified/calib_1791394503959_22_topdown.jpg",
+      "comparison": "T03/results/comparisons/calib_1791394503959_22_comparison.jpg"
+    },
+    {
+      "image": "calib_1791394507495_23.jpg",
+      "status": "ok",
+      "lens_distortion_corrected": true,
+      "input_size_px": [
+        1920,
+        1080
+      ],
+      "output_size_px": [
+        1000,
+        700
+      ],
+      "source_corners_px": [
+        [
+          1153.3409423828125,
+          963.5900268554688
+        ],
+        [
+          592.9559936523438,
+          886.1539916992188
+        ],
+        [
+          669.0679931640625,
+          581.2000122070312
+        ],
+        [
+          1176.529052734375,
+          654.6599731445312
+        ]
+      ],
+      "destination_corners_px": [
+        [
+          100.0,
+          100.0
+        ],
+        [
+          900.0,
+          100.0
+        ],
+        [
+          900.0,
+          600.0
+        ],
+        [
+          100.0,
+          600.0
+        ]
+      ],
+      "homography": [
+        [
+          -1.8269260419,
+          -0.0988200867,
+          2329.5312805049
+        ],
+        [
+          0.2475637546,
+          -1.810946011,
+          1586.7241783211
+        ],
+        [
+          -7.8912e-05,
+          0.0003771436,
+          1.0
+        ]
+      ],
+      "control_point_rmse_px": 0.0,
+      "annotated": "T03/results/annotated/calib_1791394507495_23_corners.jpg",
+      "rectified": "T03/results/rectified/calib_1791394507495_23_topdown.jpg",
+      "comparison": "T03/results/comparisons/calib_1791394507495_23_comparison.jpg"
+    },
+    {
+      "image": "calib_1791394516270_24.jpg",
+      "status": "ok",
+      "lens_distortion_corrected": true,
+      "input_size_px": [
+        1920,
+        1080
+      ],
+      "output_size_px": [
+        1000,
+        700
+      ],
+      "source_corners_px": [
+        [
+          1149.9420166015625,
+          544.9580078125
+        ],
+        [
+          584.1710205078125,
+          647.9979858398438
+        ],
+        [
+          548.1240234375,
+          323.6499938964844
+        ],
+        [
+          1081.4169921875,
+          228.3459930419922
+        ]
+      ],
+      "destination_corners_px": [
+        [
+          100.0,
+          100.0
+        ],
+        [
+          900.0,
+          100.0
+        ],
+        [
+          900.0,
+          600.0
+        ],
+        [
+          100.0,
+          600.0
+        ]
+      ],
+      "homography": [
+        [
+          -1.5561530172,
+          0.3575799436,
+          1708.5262294098
+        ],
+        [
+          -0.2944784853,
+          -1.6104228948,
+          1330.1521518776
+        ],
+        [
+          2.50269e-05,
+          0.0002023678,
+          1.0
+        ]
+      ],
+      "control_point_rmse_px": 0.0,
+      "annotated": "T03/results/annotated/calib_1791394516270_24_corners.jpg",
+      "rectified": "T03/results/rectified/calib_1791394516270_24_topdown.jpg",
+      "comparison": "T03/results/comparisons/calib_1791394516270_24_comparison.jpg"
+    },
+    {
+      "image": "calib_1791394517852_25.jpg",
+      "status": "ok",
+      "lens_distortion_corrected": true,
+      "input_size_px": [
+        1920,
+        1080
+      ],
+      "output_size_px": [
+        1000,
+        700
+      ],
+      "source_corners_px": [
+        [
+          1130.8719482421875,
+          545.60302734375
+        ],
+        [
+          640.3389892578125,
+          522.7919921875
+        ],
+        [
+          544.3870239257812,
+          249.8939971923828
+        ],
+        [
+          1113.27001953125,
+          206.3769989013672
+        ]
+      ],
+      "destination_corners_px": [
+        [
+          100.0,
+          100.0
+        ],
+        [
+          900.0,
+          100.0
+        ],
+        [
+          900.0,
+          600.0
+        ],
+        [
+          100.0,
+          600.0
+        ]
+      ],
+      "homography": [
+        [
+          -1.4387179941,
+          0.0062330761,
+          1733.7590338537
+        ],
+        [
+          0.1346996409,
+          -2.0411170535,
+          1071.4651358284
+        ],
+        [
+          0.0004306733,
+          -0.0007065672,
+          1.0
+        ]
+      ],
+      "control_point_rmse_px": 0.0,
+      "annotated": "T03/results/annotated/calib_1791394517852_25_corners.jpg",
+      "rectified": "T03/results/rectified/calib_1791394517852_25_topdown.jpg",
+      "comparison": "T03/results/comparisons/calib_1791394517852_25_comparison.jpg"
+    },
+    {
+      "image": "calib_1791394519434_26.jpg",
+      "status": "ok",
+      "lens_distortion_corrected": true,
+      "input_size_px": [
+        1920,
+        1080
+      ],
+      "output_size_px": [
+        1000,
+        700
+      ],
+      "source_corners_px": [
+        [
+          1247.9539794921875,
+          560.333984375
+        ],
+        [
+          615.1959838867188,
+          679.4970092773438
+        ],
+        [
+          525.6740112304688,
+          296.364990234375
+        ],
+        [
+          1223.5159912109375,
+          167.02200317382812
+        ]
+      ],
+      "destination_corners_px": [
+        [
+          100.0,
+          100.0
+        ],
+        [
+          900.0,
+          100.0
+        ],
+        [
+          900.0,
+          600.0
+        ],
+        [
+          100.0,
+          600.0
+        ]
+      ],
+      "homography": [
+        [
+          -1.0396325448,
+          0.0431919462,
+          1355.6448947567
+        ],
+        [
+          -0.2195847628,
+          -1.1627241586,
+          1007.9790308234
+        ],
+        [
+          -4.59383e-05,
+          -0.0002111842,
+          1.0
+        ]
+      ],
+      "control_point_rmse_px": 0.0,
+      "annotated": "T03/results/annotated/calib_1791394519434_26_corners.jpg",
+      "rectified": "T03/results/rectified/calib_1791394519434_26_topdown.jpg",
+      "comparison": "T03/results/comparisons/calib_1791394519434_26_comparison.jpg"
+    },
+    {
+      "image": "calib_1791394521017_27.jpg",
+      "status": "ok",
+      "lens_distortion_corrected": true,
+      "input_size_px": [
+        1920,
+        1080
+      ],
+      "output_size_px": [
+        1000,
+        700
+      ],
+      "source_corners_px": [
+        [
+          1189.01904296875,
+          512.0689697265625
+        ],
+        [
+          746.9500122070312,
+          430.2720031738281
+        ],
+        [
+          637.3410034179688,
+          178.85400390625
+        ],
+        [
+          1179.2490234375,
+          163.37399291992188
+        ]
+      ],
+      "destination_corners_px": [
+        [
+          100.0,
+          100.0
+        ],
+        [
+          900.0,
+          100.0
+        ],
+        [
+          900.0,
+          600.0
+        ],
+        [
+          100.0,
+          600.0
+        ]
+      ],
+      "homography": [
+        [
+          -2.1796875532,
+          -0.1144279959,
+          2825.1214986982
+        ],
+        [
+          0.7697202634,
+          -3.5815775356,
+          1093.6400636663
+        ],
+        [
+          0.0014021319,
+          -0.0017942724,
+          1.0
+        ]
+      ],
+      "control_point_rmse_px": 0.0,
+      "annotated": "T03/results/annotated/calib_1791394521017_27_corners.jpg",
+      "rectified": "T03/results/rectified/calib_1791394521017_27_topdown.jpg",
+      "comparison": "T03/results/comparisons/calib_1791394521017_27_comparison.jpg"
+    },
+    {
+      "image": "calib_1791394522739_28.jpg",
+      "status": "ok",
+      "lens_distortion_corrected": true,
+      "input_size_px": [
+        1920,
+        1080
+      ],
+      "output_size_px": [
+        1000,
+        700
+      ],
+      "source_corners_px": [
+        [
+          1170.3709716796875,
+          555.385009765625
+        ],
+        [
+          609.9959716796875,
+          709.2100219726562
+        ],
+        [
+          545.1060180664062,
+          385.1319885253906
+        ],
+        [
+          1072.68701171875,
+          238.54800415039062
+        ]
+      ],
+      "destination_corners_px": [
+        [
+          100.0,
+          100.0
+        ],
+        [
+          900.0,
+          100.0
+        ],
+        [
+          900.0,
+          600.0
+        ],
+        [
+          100.0,
+          600.0
+        ]
+      ],
+      "homography": [
+        [
+          -1.545768519,
+          0.4982548761,
+          1650.9820140583
+        ],
+        [
+          -0.4396280307,
+          -1.6057245032,
+          1524.9053704567
+        ],
+        [
+          6.54736e-05,
+          0.0001966072,
+          1.0
+        ]
+      ],
+      "control_point_rmse_px": 0.0,
+      "annotated": "T03/results/annotated/calib_1791394522739_28_corners.jpg",
+      "rectified": "T03/results/rectified/calib_1791394522739_28_topdown.jpg",
+      "comparison": "T03/results/comparisons/calib_1791394522739_28_comparison.jpg"
+    },
+    {
+      "image": "calib_1791394524328_29.jpg",
+      "status": "ok",
+      "lens_distortion_corrected": true,
+      "input_size_px": [
+        1920,
+        1080
+      ],
+      "output_size_px": [
+        1000,
+        700
+      ],
+      "source_corners_px": [
+        [
+          1217.2850341796875,
+          586.6909790039062
+        ],
+        [
+          607.0689697265625,
+          785.280029296875
+        ],
+        [
+          484.9209899902344,
+          395.1189880371094
+        ],
+        [
+          1137.9420166015625,
+          208.43600463867188
+        ]
+      ],
+      "destination_corners_px": [
+        [
+          100.0,
+          100.0
+        ],
+        [
+          900.0,
+          100.0
+        ],
+        [
+          900.0,
+          600.0
+        ],
+        [
+          100.0,
+          600.0
+        ]
+      ],
+      "homography": [
+        [
+          -1.0584464032,
+          0.209655027,
+          1245.9149233779
+        ],
+        [
+          -0.3541581613,
+          -1.063835919,
+          1135.7407503752
+        ],
+        [
+          -0.0001120239,
+          -0.0001001642,
+          1.0
+        ]
+      ],
+      "control_point_rmse_px": 0.0,
+      "annotated": "T03/results/annotated/calib_1791394524328_29_corners.jpg",
+      "rectified": "T03/results/rectified/calib_1791394524328_29_topdown.jpg",
+      "comparison": "T03/results/comparisons/calib_1791394524328_29_comparison.jpg"
+    },
+    {
+      "image": "calib_1791394525905_30.jpg",
+      "status": "ok",
+      "lens_distortion_corrected": true,
+      "input_size_px": [
+        1920,
+        1080
+      ],
+      "output_size_px": [
+        1000,
+        700
+      ],
+      "source_corners_px": [
+        [
+          1166.425048828125,
+          525.3079833984375
+        ],
+        [
+          741.81298828125,
+          440.59698486328125
+        ],
+        [
+          656.7529907226562,
+          172.01800537109375
+        ],
+        [
+          1158.0169677734375,
+          173.64700317382812
+        ]
+      ],
+      "destination_corners_px": [
+        [
+          100.0,
+          100.0
+        ],
+        [
+          900.0,
+          100.0
+        ],
+        [
+          900.0,
+          600.0
+        ],
+        [
+          100.0,
+          600.0
+        ]
+      ],
+      "homography": [
+        [
+          -2.4127217161,
+          -0.071598848,
+          3027.5155765337
+        ],
+        [
+          0.754612692,
+          -3.2911202202,
+          1024.2962953369
+        ],
+        [
+          0.0012441644,
+          -0.0013226087,
+          1.0
+        ]
+      ],
+      "control_point_rmse_px": 0.0,
+      "annotated": "T03/results/annotated/calib_1791394525905_30_corners.jpg",
+      "rectified": "T03/results/rectified/calib_1791394525905_30_topdown.jpg",
+      "comparison": "T03/results/comparisons/calib_1791394525905_30_comparison.jpg"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+\changetocdepth {4}
+\babel@toc {brazil}{}\relax 
+\setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {1}\MakeTextUppercase []{INTRODUÇÃO}}{9}{chapter.1}%
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {2}\MakeTextUppercase []{FUNDAMENTAÇÃO TEÓRICA}}{11}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Modelo de câmera pinhole}{11}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Distorção da lente}{11}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Erro de reprojeção}{12}{section.2.3}%
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {3}\MakeTextUppercase []{MATERIAIS E MÉTODOS}}{13}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Equipamentos e software}{13}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Aquisição das imagens}{13}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Calibração intrínseca}{14}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Correção da distorção}{14}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Experimento de projeção 3D--2D}{15}{section.3.5}%
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {4}\MakeTextUppercase []{RESULTADOS E DISCUSSÃO}}{17}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Parâmetros de calibração}{17}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Remoção da distorção}{17}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Projeção de pontos tridimensionais}{18}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Verificação quantitativa}{19}{section.4.4}%
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {5}\MakeTextUppercase []{CONCLUSÃO}}{21}{chapter.5}%
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {6}\MakeTextUppercase []{REPOSITÓRIO}}{23}{chapter.6}%
+\vspace {\cftbeforechapterskip }
+\setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
+\contentsline {chapter}{\MakeTextUppercase []{Refer\^encias}}{25}{section*.14}%

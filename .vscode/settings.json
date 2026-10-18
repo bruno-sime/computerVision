@@ -1,3 +1,4 @@
 {
-    "python-envs.defaultEnvManager": "ms-python.python:system"
+    "python-envs.defaultEnvManager": "ms-python.python:system",
+    "cmake.sourceDirectory": "/Users/brunosime/Documents/2026/2026:2/VISAO COMPUTACIONAL/computerVision/T01"
 }
