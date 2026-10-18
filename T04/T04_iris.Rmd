@@ -1,0 +1,314 @@
+---
+title: "T04 — Classificação do dataset Iris"
+author: "Bruno Sime"
+date: "18 de outubro de 2026"
+lang: pt-BR
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+    theme: cosmo
+    self_contained: true
+  pdf_document:
+    toc: true
+    number_sections: true
+fontsize: 11pt
+geometry: margin=2cm
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, comment = NA,
+                      fig.width = 7, fig.height = 5, dpi = 140)
+library(ggplot2)
+library(class)
+
+tema <- theme_minimal(base_size = 11) +
+  theme(legend.position = "bottom", panel.grid.minor = element_blank())
+cores <- c(setosa = "#0072B2", versicolor = "#E69F00", virginica = "#009E73")
+
+dados <- iris
+names(dados) <- c("Comprimento_sepala", "Largura_sepala",
+                  "Comprimento_petala", "Largura_petala", "Categoria")
+write.csv(dados, "iris.csv", row.names = FALSE)
+
+modas <- function(x) {
+  tab <- table(x)
+  vals <- names(tab)[tab == max(tab)]
+  paste(vals, collapse = ", ")
+}
+
+resumo_bloco <- function(df) {
+  num <- df[sapply(df, is.numeric)]
+  data.frame(
+    Variavel = names(num),
+    Media = sapply(num, mean),
+    Desvio_padrao = sapply(num, sd),
+    Moda = sapply(num, modas),
+    row.names = NULL,
+    check.names = FALSE
+  )
+}
+
+fmt <- function(x, n = 3) format(round(x, n), nsmall = n, decimal.mark = ",")
+```
+
+# Objetivo e dados
+
+O objetivo é explorar as quatro medidas morfológicas do dataset **Iris**, aplicar
+Análise de Componentes Principais (PCA) e avaliar um classificador K-Nearest
+Neighbors (K-NN). O conjunto possui 150 plantas, 50 de cada uma das espécies
+*setosa*, *versicolor* e *virginica*, quatro variáveis em centímetros e nenhum
+valor ausente [1].
+
+```{r estrutura}
+cat("Dimensões:", nrow(dados), "linhas e", ncol(dados) - 1, "variáveis preditoras.\n")
+cat("Valores ausentes:", sum(is.na(dados)), "\n")
+```
+
+# Estatística descritiva
+
+Como as medidas são contínuas, a moda é calculada sobre os valores observados
+com sua precisão original. Quando há empate, todas as modas são exibidas.
+
+## Resumo geral
+
+```{r resumo-geral}
+geral <- resumo_bloco(dados)
+geral$Media <- fmt(geral$Media)
+geral$Desvio_padrao <- fmt(geral$Desvio_padrao)
+knitr::kable(geral, align = c("l", "r", "r", "l"))
+```
+
+## Resumo por categoria
+
+```{r resumo-categoria}
+por_categoria <- do.call(rbind, lapply(levels(dados$Categoria), function(cat) {
+  out <- resumo_bloco(dados[dados$Categoria == cat, ])
+  out$Categoria <- cat
+  out[, c("Categoria", "Variavel", "Media", "Desvio_padrao", "Moda")]
+}))
+por_categoria$Media <- fmt(por_categoria$Media)
+por_categoria$Desvio_padrao <- fmt(por_categoria$Desvio_padrao)
+knitr::kable(por_categoria, align = c("l", "l", "r", "r", "l"))
+```
+
+## Frequência das categorias
+
+```{r frequencia}
+freq <- as.data.frame(table(dados$Categoria))
+names(freq) <- c("Categoria", "Frequencia")
+freq$Percentual <- paste0(fmt(100 * freq$Frequencia / nrow(dados), 1), "%")
+knitr::kable(freq, align = c("l", "r", "r"))
+```
+
+As classes são perfeitamente balanceadas: cada espécie representa um terço do
+conjunto. Assim, a acurácia é uma métrica interpretável e não é dominada por
+uma classe majoritária.
+
+# Relação entre comprimento e largura da sépala
+
+```{r sepala, fig.cap="Comprimento e largura da sépala por categoria."}
+ggplot(dados, aes(Comprimento_sepala, Largura_sepala, color = Categoria)) +
+  geom_point(size = 2.4, alpha = 0.8) +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 0.8) +
+  scale_color_manual(values = cores) + tema +
+  labs(x = "Comprimento da sépala (cm)", y = "Largura da sépala (cm)",
+       color = "Categoria")
+```
+
+```{r correlacao-sepala}
+cor_sep <- do.call(rbind, lapply(levels(dados$Categoria), function(cat) {
+  d <- dados[dados$Categoria == cat, ]
+  data.frame(Categoria = cat,
+             Correlacao_Pearson = cor(d$Comprimento_sepala, d$Largura_sepala))
+}))
+cor_sep$Correlacao_Pearson <- fmt(cor_sep$Correlacao_Pearson)
+knitr::kable(cor_sep, align = c("l", "r"))
+```
+
+Há sobreposição considerável entre *versicolor* e *virginica* no plano das
+sépalas. A *setosa* tende a ter sépalas mais curtas e relativamente mais largas.
+As correlações internas são positivas, mas a separação visual somente com essas
+duas variáveis é limitada.
+
+# Relação entre comprimento e largura da pétala
+
+```{r petala, fig.cap="Comprimento e largura da pétala por categoria."}
+ggplot(dados, aes(Comprimento_petala, Largura_petala, color = Categoria)) +
+  geom_point(size = 2.4, alpha = 0.8) +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 0.8) +
+  scale_color_manual(values = cores) + tema +
+  labs(x = "Comprimento da pétala (cm)", y = "Largura da pétala (cm)",
+       color = "Categoria")
+```
+
+```{r correlacao-petala}
+cor_pet <- do.call(rbind, lapply(levels(dados$Categoria), function(cat) {
+  d <- dados[dados$Categoria == cat, ]
+  data.frame(Categoria = cat,
+             Correlacao_Pearson = cor(d$Comprimento_petala, d$Largura_petala))
+}))
+cor_pet$Correlacao_Pearson <- fmt(cor_pet$Correlacao_Pearson)
+knitr::kable(cor_pet, align = c("l", "r"))
+```
+
+As pétalas oferecem separação muito mais clara: *setosa* forma um grupo isolado,
+enquanto *versicolor* e *virginica* ainda apresentam uma pequena região de
+sobreposição. Em geral, pétalas mais compridas também são mais largas.
+
+# Distribuição conjunta nas quatro dimensões
+
+```{r pares, fig.width=8, fig.height=8, fig.cap="Matriz de dispersão das quatro variáveis."}
+num <- dados[, 1:4]
+col_pts <- unname(cores[as.character(dados$Categoria)])
+pairs(num, col = adjustcolor(col_pts, alpha.f = 0.7), pch = 19,
+      main = "Distribuição das categorias nas quatro dimensões")
+legend("topright", legend = levels(dados$Categoria), col = cores,
+       pch = 19, bty = "n", cex = 0.85)
+```
+
+Os pares envolvendo medidas de pétala são os mais discriminativos. Medidas de
+sépala, especialmente a largura, possuem maior sobreposição. Isso sugere que um
+classificador que combine as quatro dimensões pode aproveitar a separação das
+pétalas e usar as sépalas como informação complementar.
+
+# Análise de Componentes Principais (PCA)
+
+PCA transforma variáveis correlacionadas em eixos ortogonais ordenados pela
+variância explicada [2]. As quatro medidas foram padronizadas antes do cálculo,
+pois possuem dispersões diferentes. PCA é usado aqui para exploração e
+visualização, não como parte do ajuste final do K-NN.
+
+```{r pca-tabela}
+pca <- prcomp(dados[, 1:4], center = TRUE, scale. = TRUE)
+var_exp <- 100 * pca$sdev^2 / sum(pca$sdev^2)
+pca_tab <- data.frame(
+  Componente = paste0("PC", 1:4),
+  Variancia_explicada = paste0(fmt(var_exp, 2), "%"),
+  Acumulada = paste0(fmt(cumsum(var_exp), 2), "%")
+)
+knitr::kable(pca_tab, align = c("l", "r", "r"))
+```
+
+```{r pca-grafico, fig.cap="Projeção das amostras nos dois primeiros componentes principais."}
+pca_df <- data.frame(PC1 = pca$x[, 1], PC2 = pca$x[, 2], Categoria = dados$Categoria)
+ggplot(pca_df, aes(PC1, PC2, color = Categoria)) +
+  geom_point(size = 2.5, alpha = 0.8) +
+  stat_ellipse(linewidth = 0.7, level = 0.90) +
+  scale_color_manual(values = cores) + tema +
+  labs(x = paste0("PC1 (", fmt(var_exp[1], 1), "%)"),
+       y = paste0("PC2 (", fmt(var_exp[2], 1), "%)"), color = "Categoria")
+```
+
+```{r pca-cargas}
+cargas <- as.data.frame(pca$rotation[, 1:2])
+cargas$Variavel <- rownames(cargas)
+cargas <- cargas[, c("Variavel", "PC1", "PC2")]
+cargas$PC1 <- fmt(cargas$PC1)
+cargas$PC2 <- fmt(cargas$PC2)
+knitr::kable(cargas, align = c("l", "r", "r"))
+```
+
+Os dois primeiros componentes preservam `r fmt(sum(var_exp[1:2]), 2)`% da
+variância total. O PC1 recebe grande contribuição das dimensões das pétalas e do
+comprimento da sépala, funcionando aproximadamente como um eixo de “tamanho”.
+O PC2 destaca principalmente a largura da sépala. A projeção 2D mantém *setosa*
+claramente separada e revela a proximidade entre *versicolor* e *virginica*.
+
+# Classificação com K-NN
+
+Foi usada divisão estratificada de 80% para treino (120 amostras) e 20% para
+teste (30 amostras), com semente 42. Cada classe contribui com 40 exemplos para
+treino e 10 para teste. A padronização usa somente média e desvio do treino.
+O valor de $k$ é escolhido por validação cruzada estratificada em cinco partes,
+exclusivamente dentro do treino, entre os valores ímpares de 1 a 15.
+
+```{r divisao-knn}
+set.seed(42)
+idx_treino <- unlist(lapply(levels(dados$Categoria), function(cat) {
+  idx <- which(dados$Categoria == cat)
+  sample(idx, 0.8 * length(idx))
+}))
+treino <- dados[idx_treino, ]
+teste <- dados[-idx_treino, ]
+
+ks <- seq(1, 15, by = 2)
+set.seed(42)
+fold_id <- integer(nrow(treino))
+for (cat in levels(treino$Categoria)) {
+  idx <- which(treino$Categoria == cat)
+  fold_id[idx] <- sample(rep(1:5, length.out = length(idx)))
+}
+
+acc_cv <- sapply(ks, function(k) {
+  acertos <- c()
+  for (f in 1:5) {
+    tr <- treino[fold_id != f, ]
+    va <- treino[fold_id == f, ]
+    mu <- sapply(tr[, 1:4], mean)
+    sig <- sapply(tr[, 1:4], sd)
+    xtr <- scale(tr[, 1:4], center = mu, scale = sig)
+    xva <- scale(va[, 1:4], center = mu, scale = sig)
+    pred <- knn(xtr, xva, cl = tr$Categoria, k = k)
+    acertos <- c(acertos, pred == va$Categoria)
+  }
+  mean(acertos)
+})
+
+cv <- data.frame(k = ks, Acuracia_CV = acc_cv)
+k_escolhido <- min(cv$k[cv$Acuracia_CV == max(cv$Acuracia_CV)])
+cv$Acuracia_CV <- fmt(cv$Acuracia_CV, 3)
+knitr::kable(cv, align = c("r", "r"))
+```
+
+**k escolhido:** `r k_escolhido`.
+
+```{r resultado-knn}
+mu <- sapply(treino[, 1:4], mean)
+sig <- sapply(treino[, 1:4], sd)
+x_treino <- scale(treino[, 1:4], center = mu, scale = sig)
+x_teste <- scale(teste[, 1:4], center = mu, scale = sig)
+pred <- knn(x_treino, x_teste, cl = treino$Categoria, k = k_escolhido)
+
+cm <- table(Real = teste$Categoria, Predita = pred)
+knitr::kable(cm)
+
+acuracia <- sum(diag(cm)) / sum(cm)
+metricas <- do.call(rbind, lapply(levels(teste$Categoria), function(cat) {
+  tp <- cm[cat, cat]
+  fp <- sum(cm[, cat]) - tp
+  fn <- sum(cm[cat, ]) - tp
+  precisao <- tp / (tp + fp)
+  revocacao <- tp / (tp + fn)
+  f1 <- 2 * precisao * revocacao / (precisao + revocacao)
+  data.frame(Categoria = cat, Precisao = precisao,
+             Revocacao = revocacao, F1 = f1)
+}))
+metricas[, 2:4] <- lapply(metricas[, 2:4], fmt)
+knitr::kable(metricas, align = c("l", "r", "r", "r"))
+```
+
+**Acurácia no teste:** `r fmt(100 * acuracia, 1)`%.
+
+# Conclusão
+
+O dataset é balanceado e apresenta estrutura bastante favorável à classificação.
+As medidas de pétala são as variáveis que melhor distinguem as espécies; as
+medidas de sépala isoladamente produzem mais sobreposição. PCA comprime as quatro
+variáveis em dois eixos mantendo `r fmt(sum(var_exp[1:2]), 2)`% da variância e
+preserva a estrutura visual das classes. Com `r k_escolhido` vizinhos, o K-NN
+padronizado obteve **`r fmt(100 * acuracia, 1)`% de acurácia** nas 30 amostras de
+teste. Os eventuais erros ficam entre *versicolor* e *virginica*, justamente as
+classes que se sobrepõem nos gráficos; *setosa* permanece a classe mais fácil de
+identificar.
+
+# Referências
+
+[1] Fisher, R. A. (1936). *Iris* [Dataset]. UCI Machine Learning Repository.
+DOI: [10.24432/C56C76](https://doi.org/10.24432/C56C76).
+
+[2] Jolliffe, I. T.; Cadima, J. (2016). Principal component analysis: a review
+and recent developments. *Philosophical Transactions of the Royal Society A*,
+374:20150202. DOI: [10.1098/rsta.2015.0202](https://doi.org/10.1098/rsta.2015.0202).
+
