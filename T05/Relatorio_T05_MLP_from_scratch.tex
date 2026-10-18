@@ -1,0 +1,401 @@
+\documentclass[12pt,a4paper,oneside,openany,chapter=TITLE,section=TITLE,subsection=TITLE,brazil]{abntex2}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{indentfirst}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{hyperref}
+\usetikzlibrary{matrix,positioning}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{compat=1.17}
+
+\geometry{top=3cm,bottom=2cm,left=3cm,right=2cm}
+\OnehalfSpacing
+\setlength{\parindent}{1.25cm}
+\setlength{\parskip}{0pt}
+
+\definecolor{ufprblue}{HTML}{1F4E79}
+\definecolor{softblue}{HTML}{DCEAF3}
+\definecolor{softgreen}{HTML}{DDEFE7}
+\definecolor{softorange}{HTML}{F4DFD4}
+\definecolor{codebg}{HTML}{F5F7F8}
+
+\titulo{Classificação das três espécies de Iris com MLP from scratch}
+\tituloestrangeiro{Classification of the three Iris species with an MLP from scratch}
+\autor{Bruno Sime Ferreira Nunes -- GRR20190568}
+\orientador{Prof. Eduardo Todt}
+\data{2026}
+\instituicao{%
+  Universidade Federal do Paraná (UFPR) \par
+  Disciplina de Visão Computacional e Percepção
+}
+\tipotrabalho{Trabalho Acadêmico}
+\local{Curitiba, PR}
+\preambulo{Trabalho acadêmico apresentado como requisito de avaliação na disciplina de Visão Computacional e Percepção da Universidade Federal do Paraná.}
+
+\makeatletter
+\hypersetup{
+  pdftitle={\@title},
+  pdfauthor={\@author},
+  pdfsubject={\imprimirpreambulo},
+  pdfkeywords={MLP, Iris, backpropagation, convergência, overfitting},
+  pdfcreator={LaTeX com abnTeX2},
+  colorlinks=true,
+  linkcolor=ufprblue,
+  citecolor=ufprblue,
+  urlcolor=ufprblue
+}
+\makeatother
+
+\lstdefinestyle{python}{
+  language=Python,
+  basicstyle=\ttfamily\small,
+  backgroundcolor=\color{codebg},
+  frame=single,
+  rulecolor=\color{gray!35},
+  showstringspaces=false,
+  columns=fullflexible,
+  keepspaces=true,
+  breaklines=true,
+  keywordstyle=\color{ufprblue}\bfseries,
+  commentstyle=\color{green!45!black},
+  stringstyle=\color{orange!55!black}
+}
+
+\newcommand{\pct}[1]{#1\%}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
+\begin{document}
+
+\pretextual
+\imprimircapa
+\imprimirfolhaderosto*
+
+\begin{resumo}[Resumo]
+Este trabalho revisa e depura uma implementação de perceptron multicamadas construída sem bibliotecas de redes neurais e avalia quatro configurações no conjunto Iris. A versão corrigida utiliza propagação vetorizada, softmax, entropia cruzada, inicialização Xavier ou He, mini-batches, regularização L2 e parada antecipada opcional. O protocolo separa os dados de forma estratificada em treino, validação e teste e repete cada configuração com dez inicializações. A configuração regularizada escolhida obteve \pct{96,67} no teste, com um único erro entre \textit{virginica} e \textit{versicolor}. As curvas também mostram que redes capazes de memorizar o treino não necessariamente apresentam melhor generalização.
+
+\vspace{\onelineskip}
+\noindent
+\textbf{Palavras-chave}: perceptron multicamadas. backpropagation. Iris. convergência. overfitting.
+\end{resumo}
+
+\begin{resumo}[Abstract]
+\begin{otherlanguage*}{english}
+This work reviews and debugs a multilayer perceptron implemented without neural-network libraries and evaluates four configurations on the Iris dataset. The corrected version uses vectorized propagation, softmax, cross-entropy, Xavier or He initialization, mini-batches, L2 regularization, and optional early stopping. The protocol uses stratified train, validation, and test partitions and repeats each configuration with ten initializations. The selected regularized model achieved 96.67\% test accuracy, with a single error between \textit{virginica} and \textit{versicolor}. The learning curves also show that models capable of memorizing the training data do not necessarily generalize better.
+
+\vspace{\onelineskip}
+\noindent
+\textbf{Keywords}: multilayer perceptron. backpropagation. Iris. convergence. overfitting.
+\end{otherlanguage*}
+\end{resumo}
+
+\pdfbookmark[0]{\contentsname}{toc}
+\tableofcontents*
+\cleardoublepage
+
+\textual
+
+\chapter{INTRODUÇÃO}
+
+O objetivo deste trabalho é compreender a implementação fornecida de uma rede perceptron multicamadas (MLP), corrigir falhas que comprometiam seu funcionamento e investigar como classificar adequadamente as três espécies do conjunto Iris. O problema contém 150 amostras, quatro atributos contínuos e três classes balanceadas: \textit{setosa}, \textit{versicolor} e \textit{virginica}.
+
+O conjunto é pequeno, mas oferece um caso útil para estudar otimização e generalização. \textit{Setosa} é bem separada pelas medidas das pétalas, enquanto \textit{versicolor} e \textit{virginica} apresentam uma região de sobreposição. Assim, além da acurácia global, é necessário observar a matriz de confusão, as métricas por classe, as curvas de perda e a diferença entre o desempenho de treino e validação.
+
+O notebook-base foi estudado como ponto de partida. A nova implementação preserva o caráter didático do código \textit{from scratch}: a rede, o fluxo direto e o backpropagation utilizam apenas NumPy. Scikit-learn é empregado somente para carregar o conjunto, realizar a divisão estratificada e calcular métricas.
+
+\chapter{FUNDAMENTAÇÃO TEÓRICA}
+
+\section{Perceptron multicamadas}
+
+Para uma entrada $X \in \mathbb{R}^{n \times 4}$, a camada oculta é calculada por
+
+\begin{equation}
+  Z_1 = XW_1 + b_1,
+  \qquad
+  A_1 = g(Z_1),
+\end{equation}
+
+em que $g$ é sigmoid, tangente hiperbólica ou ReLU, conforme a configuração. A camada de saída produz os logits
+
+\begin{equation}
+  Z_2 = A_1W_2 + b_2.
+\end{equation}
+
+Como as classes são mutuamente exclusivas, as probabilidades são obtidas com softmax:
+
+\begin{equation}
+  p_{ik} = \frac{\exp(z_{ik}-m_i)}{\sum_j \exp(z_{ij}-m_i)},
+  \qquad m_i = \max_j z_{ij}.
+\end{equation}
+
+A subtração de $m_i$ evita overflow sem alterar as probabilidades. A função objetivo combina entropia cruzada e, quando habilitada, penalidade L2:
+
+\begin{equation}
+  \mathcal{L} = -\frac{1}{n}\sum_{i=1}^{n}\sum_{k=1}^{3} y_{ik}\log(p_{ik}+\varepsilon)
+  + \frac{\lambda}{2}\left(\lVert W_1\rVert_F^2 + \lVert W_2\rVert_F^2\right).
+\end{equation}
+
+\section{Convergência e generalização}
+
+Convergência é identificada pela redução da função de custo. Entretanto, uma perda de treino continuamente decrescente não garante melhora fora dos dados usados no ajuste. O overfitting ocorre quando o modelo aprende detalhes específicos do treino e perde capacidade de generalização. Neste trabalho, ele é analisado por três sinais: aumento ou estabilização da perda de validação, diferença entre acurácias de treino e validação e desempenho inferior no teste apesar de treino perfeito.
+
+A parada antecipada preserva os pesos da época com menor perda de validação. A regularização L2 limita pesos excessivamente grandes, enquanto a padronização coloca os quatro atributos em escalas comparáveis. Esses mecanismos reduzem a dependência da inicialização e ajudam a controlar o ajuste em um conjunto pequeno.
+
+\chapter{AUDITORIA E DEPURAÇÃO}
+
+A inspeção do notebook-base revelou erros de execução e inconsistências entre treinamento e inferência. A Tabela~\ref{tab:depuracao} resume os principais pontos.
+
+\begin{table}[H]
+\centering
+\caption{Problemas encontrados e correções aplicadas.}
+\label{tab:depuracao}
+\small
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.27\textwidth} >{\raggedright\arraybackslash}p{0.28\textwidth} X}
+\toprule
+\textbf{Problema} & \textbf{Consequência} & \textbf{Correção} \\
+\midrule
+\texttt{iasHiddenValue} no construtor & Erro ao usar os parâmetros padrão & Nomes dos vieses unificados e inicialização explícita \\
+\texttt{predict} sem ativações & Inferência diferente do treinamento & Mesmo fluxo direto em treino, validação e teste \\
+Viés atualizado dentro do laço dos pesos & A mesma correção é aplicada várias vezes & Gradientes vetorizados e uma atualização por lote \\
+Delta oculto calculado após atualizar $W_2$ & O gradiente mistura dois estados da rede & Todos os gradientes são calculados antes das atualizações \\
+Erro quadrático acumulado de modo incorreto & A curva não representa o MSE declarado & Softmax e entropia cruzada calculada por amostra \\
+Sem validação e sem embaralhamento por época & Generalização não é monitorada & Divisão estratificada, shuffle e early stopping \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+O trecho a seguir mostra a parte central da correção. Primeiro são calculados todos os gradientes; somente depois os parâmetros são atualizados.
+
+\begin{lstlisting}[style=python,caption={Núcleo vetorizado do backpropagation corrigido.}]
+z1, a1, probs = self._forward(xb)
+dz2 = (probs - yb) / len(xb)
+dW2 = a1.T @ dz2 + self.l2 * self.W2
+db2 = np.sum(dz2, axis=0, keepdims=True)
+dz1 = (dz2 @ self.W2.T) * self._activation_derivative(a1, z1)
+dW1 = xb.T @ dz1 + self.l2 * self.W1
+db1 = np.sum(dz1, axis=0, keepdims=True)
+
+self.W1 -= self.learning_rate * dW1
+self.b1 -= self.learning_rate * db1
+self.W2 -= self.learning_rate * dW2
+self.b2 -= self.learning_rate * db2
+\end{lstlisting}
+
+\chapter{MATERIAIS E MÉTODOS}
+
+\section{Conjunto de dados e particionamento}
+
+O conjunto Iris foi dividido de forma estratificada e determinística: 90 amostras para treino (\pct{60}), 30 para validação (\pct{20}) e 30 para teste (\pct{20}). O teste contém dez exemplos de cada espécie. Quando utilizada, a padronização foi calculada exclusivamente a partir do treino:
+
+\begin{equation}
+  x' = \frac{x-\mu_{\mathrm{treino}}}{\sigma_{\mathrm{treino}}}.
+\end{equation}
+
+Esse procedimento evita vazamento de informação. O conjunto de teste permaneceu separado do ajuste. Cada configuração foi repetida com dez sementes de inicialização para avaliar a variabilidade dos pesos iniciais.
+
+\section{Configurações experimentais}
+
+A arquitetura possui quatro entradas, uma camada oculta e três saídas. Os pesos foram inicializados por Xavier para sigmoid e tanh e por He para ReLU. A Tabela~\ref{tab:configs} apresenta as quatro configurações.
+
+\begin{table}[H]
+\centering
+\caption{Configurações avaliadas.}
+\label{tab:configs}
+\small
+\begin{tabular}{clcccc}
+\toprule
+\textbf{Config.} & \textbf{Camada oculta} & \textbf{Padronização} & \textbf{Taxa} & \textbf{Lote} & \textbf{Regularização} \\
+\midrule
+A & 5 sigmoid & Não & 0,01 & 1 & Nenhuma \\
+B & 8 tanh & Sim & 0,05 & 16 & Nenhuma \\
+C & 12 tanh & Sim & 0,05 & 16 & L2 e early stopping \\
+D & 64 ReLU & Sim & 0,02 & 8 & Nenhuma \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+As configurações A e B executaram 1.500 épocas. A configuração C tinha limite de 2.500 épocas e paciência de 180 épocas. A configuração D executou 2.500 épocas para investigar o comportamento de uma rede com maior capacidade e sem regularização.
+
+\section{Métricas}
+
+Foram calculadas acurácia, precisão, recall e F1 por classe. A estabilidade foi medida pelo desvio-padrão da acurácia de teste nas dez inicializações. O gap de generalização corresponde à acurácia de treino menos a acurácia de validação.
+
+\chapter{RESULTADOS E DISCUSSÃO}
+
+Este capítulo reúne os resultados quantitativos, as curvas de convergência e a análise dos erros da configuração selecionada.
+
+\section{Comparação das configurações}
+
+A Tabela~\ref{tab:resultados} resume as dez inicializações. A configuração A alcançou a maior média de teste, mas também apresentou a maior dispersão e exigiu todas as 1.500 épocas. A configuração C foi adotada para a análise detalhada porque combina regularização explícita, parada antecipada, menor custo médio e uma execução representativa de alta acurácia.
+
+\begin{table}[H]
+\centering
+\caption{Resultados médios das dez inicializações.}
+\label{tab:resultados}
+\small
+\begin{tabular}{cccccc}
+\toprule
+\textbf{Config.} & \textbf{Teste (\%)} & \textbf{Treino (\%)} & \textbf{Validação (\%)} & \textbf{Gap (p.p.)} & \textbf{Épocas} \\
+\midrule
+A & $95{,}67 \pm 3{,}53$ & 97,44 & 99,00 & -1,56 & 1.500,0 \\
+B & $90{,}33 \pm 1{,}05$ & 100,00 & 96,67 & 3,33 & 1.500,0 \\
+C & $95{,}00 \pm 1{,}76$ & 99,00 & 93,33 & 5,67 & 457,4 \\
+D & $93{,}33 \pm 0{,}00$ & 100,00 & 96,67 & 3,33 & 2.500,0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  ybar,
+  width=0.88\textwidth,
+  height=7.2cm,
+  ymin=0.82,
+  ymax=1.01,
+  ylabel={Acurácia de teste},
+  symbolic x coords={A,B,C,D},
+  xtick=data,
+  nodes near coords,
+  nodes near coords style={font=\small,/pgf/number format/fixed,/pgf/number format/precision=3},
+  error bars/y dir=both,
+  error bars/y explicit,
+  grid=major,
+  grid style={gray!20},
+  bar width=22pt,
+]
+\addplot+[fill=ufprblue!65,draw=ufprblue,error bars/y dir=both,error bars/y explicit]
+coordinates {(A,0.9567) +- (0,0.0353) (B,0.9033) +- (0,0.0105) (C,0.9500) +- (0,0.0176) (D,0.9333) +- (0,0.0000)};
+\end{axis}
+\end{tikzpicture}
+\caption{Acurácia média de teste e desvio-padrão em dez inicializações.}
+\label{fig:acuracia}
+\end{figure}
+
+A configuração A variou de \pct{90} a \pct{100}, mostrando sensibilidade à inicialização. A configuração C apresentou menor dispersão e encerrou o treinamento após 457,4 épocas em média, aproximadamente \pct{82} abaixo do limite máximo de 2.500 épocas.
+
+\section{Convergência e overfitting}
+
+A Figura~\ref{fig:convergencia} compara uma execução sem regularização, configuração B, à configuração C. Em B, a perda de treino continua caindo após 200 épocas, enquanto a perda de validação atinge o mínimo e passa a crescer. Esse é um sinal direto de overfitting. Em C, a penalidade L2 suaviza o ajuste e o early stopping recupera os parâmetros correspondentes à melhor perda de validação.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{groupplot}[
+  group style={group size=2 by 1,horizontal sep=1.4cm},
+  width=0.47\textwidth,
+  height=6.2cm,
+  xlabel={Época},
+  ylabel={Perda},
+  grid=major,
+  grid style={gray!20},
+  legend style={font=\scriptsize},
+]
+\nextgroupplot[title={B - tanh sem regularização},xmin=0,xmax=1500,ymin=0,ymax=1.02]
+\addplot[ufprblue,thick] coordinates {(1,0.99484) (25,0.29100) (50,0.16979) (100,0.09383) (200,0.05703) (300,0.04309) (500,0.03080) (800,0.02267) (1100,0.01802) (1500,0.01398)};
+\addlegendentry{Treino}
+\addplot[orange!75!black,thick] coordinates {(1,0.94463) (25,0.34926) (50,0.22842) (100,0.12496) (200,0.08389) (300,0.08437) (500,0.09310) (800,0.10068) (1100,0.10154) (1500,0.09847)};
+\addlegendentry{Validação}
+
+\nextgroupplot[title={C - tanh com L2 e early stopping},xmin=0,xmax=450,ymin=0,ymax=0.70]
+\addplot[ufprblue,thick] coordinates {(1,0.61540) (25,0.25572) (50,0.17708) (100,0.11370) (200,0.07713) (300,0.06491) (400,0.05889) (432,0.05756)};
+\addlegendentry{Treino}
+\addplot[orange!75!black,thick] coordinates {(1,0.65112) (25,0.35827) (50,0.25746) (100,0.15092) (200,0.10443) (300,0.10592) (400,0.11251) (432,0.11189)};
+\addlegendentry{Validação}
+\end{groupplot}
+\end{tikzpicture}
+\caption{Curvas de perda para execuções representativas com semente 7.}
+\label{fig:convergencia}
+\end{figure}
+
+A rede grande D atingiu \pct{100} de acurácia no treino, mas obteve \pct{93,33} no teste. Portanto, aumentar a capacidade e prolongar o treinamento não trouxe ganho de generalização. A configuração C também apresentou um gap treino-validação, mas seu desempenho de teste foi mais alto e o processo foi interrompido muito antes do limite.
+
+\section{Resultado por classe}
+
+Na execução representativa da configuração C, com semente 7, a acurácia de teste foi \pct{96,67} e o F1 macro foi 0,9666. A matriz de confusão é apresentada na Figura~\ref{fig:confusao}.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[font=\small]
+\matrix (m) [matrix of nodes,
+  nodes={minimum width=2.35cm,minimum height=1.35cm,anchor=center,draw=white,line width=1pt},
+  column sep=0pt,row sep=0pt] {
+  |[fill=ufprblue,text=white,font=\bfseries\Large]| 10 & |[fill=softblue]| 0 & |[fill=softblue]| 0 \\
+  |[fill=softblue]| 0 & |[fill=ufprblue,text=white,font=\bfseries\Large]| 10 & |[fill=softblue]| 0 \\
+  |[fill=softblue]| 0 & |[fill=ufprblue!18,font=\bfseries]| 1 & |[fill=ufprblue!85,text=white,font=\bfseries\Large]| 9 \\
+};
+\node[left=0.25cm of m-1-1] {\textit{setosa}};
+\node[left=0.25cm of m-2-1] {\textit{versicolor}};
+\node[left=0.25cm of m-3-1] {\textit{virginica}};
+\node[above=0.20cm of m-1-1] {\textit{setosa}};
+\node[above=0.20cm of m-1-2] {\textit{versicolor}};
+\node[above=0.20cm of m-1-3] {\textit{virginica}};
+\node[rotate=90,left=2.25cm of m-2-1,font=\bfseries] {Classe verdadeira};
+\node[below=0.45cm of m-3-2,font=\bfseries] {Classe predita};
+\end{tikzpicture}
+\caption{Matriz de confusão da configuração C, semente 7.}
+\label{fig:confusao}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\caption{Métricas por classe da configuração selecionada.}
+\label{tab:metricas}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Classe} & \textbf{Precisão} & \textbf{Recall} & \textbf{F1} & \textbf{Suporte} \\
+\midrule
+\textit{setosa} & 1,0000 & 1,0000 & 1,0000 & 10 \\
+\textit{versicolor} & 0,9091 & 1,0000 & 0,9524 & 10 \\
+\textit{virginica} & 1,0000 & 0,9000 & 0,9474 & 10 \\
+\midrule
+Macro & 0,9697 & 0,9667 & 0,9666 & 30 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Todas as amostras de \textit{setosa} e \textit{versicolor} foram reconhecidas. O único erro foi uma \textit{virginica} classificada como \textit{versicolor}, com confiança de 0,7059. A amostra possui comprimento e largura de sépala iguais a 6,3 cm e 2,8 cm e comprimento e largura de pétala iguais a 5,1 cm e 1,5 cm. Esse perfil está próximo da região de sobreposição das duas espécies e explica a confusão.
+
+Como o teste contém apenas 30 exemplos, um único erro altera a acurácia em 3,33 pontos percentuais. Por isso, a repetição de sementes e a análise por classe são necessárias para interpretar o desempenho sem depender de uma única porcentagem.
+
+\chapter{CONCLUSÃO}
+
+A depuração corrigiu o construtor, tornou o fluxo de inferência consistente com o treinamento, reorganizou o cálculo dos gradientes, eliminou atualizações repetidas dos vieses e substituiu a medida de erro incorreta por softmax com entropia cruzada. A implementação final manteve a proposta \textit{from scratch} e tornou os experimentos reproduzíveis.
+
+A MLP regularizada selecionada classificou adequadamente as três espécies e atingiu \pct{96,67} no teste, errando somente uma amostra na fronteira entre \textit{versicolor} e \textit{virginica}. A análise de convergência mostrou que a perda de treino, isoladamente, é insuficiente: as configurações B e D memorizaram o treino, mas não produziram o melhor teste.
+
+Para o conjunto Iris, uma única camada oculta de capacidade moderada, softmax, entropia cruzada, inicialização apropriada, regularização L2 e monitoramento da validação oferecem uma solução simples e eficaz. Trabalhos futuros podem usar validação cruzada estratificada para reduzir a sensibilidade causada pelo tamanho reduzido do conjunto de validação.
+
+\postextual
+
+\begin{thebibliography}{9}
+
+\bibitem{fisher1936}
+FISHER, R. A. The use of multiple measurements in taxonomic problems. \textit{Annals of Eugenics}, v. 7, n. 2, p. 179--188, 1936.
+
+\bibitem{goodfellow2016}
+GOODFELLOW, I.; BENGIO, Y.; COURVILLE, A. \textit{Deep Learning}. Cambridge: MIT Press, 2016.
+
+\bibitem{lemos}
+LEMOS, V. G. \textit{Multilayer Perceptron from Scratch}. Notebook de referência adaptado no material da disciplina. Disponível em: \url{https://www.kaggle.com/code/vitorgamalemos/multilayer-perceptron-from-scratch}. Acesso em: 18 out. 2026.
+
+\bibitem{sklearn}
+SCIKIT-LEARN DEVELOPERS. \textit{Iris plants dataset}. Disponível em: \url{https://scikit-learn.org/stable/datasets/toy_dataset.html#iris-dataset}. Acesso em: 18 out. 2026.
+
+\end{thebibliography}
+
+\end{document}

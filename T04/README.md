@@ -1,17 +1,20 @@
-# T04 — Dataset Iris
+# T04 — relatório em LaTeX
 
-Arquivos da entrega:
+O relatório usa a base `abntex2` adotada nos trabalhos da disciplina.
 
-- `T04_iris.html`: relatório final navegável, com código, tabelas e gráficos;
-- `T04_iris.pdf`: versão pronta para entrega/impressão;
-- `T04_iris.Rmd`: fonte reproduzível do relatório;
-- `iris.csv`: cópia dos dados usados na análise.
+Arquivos principais:
 
-Para reproduzir, abra `T04_iris.Rmd` no RStudio e selecione **Knit**, ou execute:
+- `main.tex`: relatório editável;
+- `pacotes.sty`, `Macros.tex` e `UFPR.pdf`: arquivos da base LaTeX;
+- `gerar_figuras.R`: reproduz os gráficos;
+- `figuras/`: gráficos vetoriais usados no relatório;
+- `iris.csv`: dados analisados;
+- `T04_iris_LaTeX.pdf`: relatório final compilado.
 
-```r
-rmarkdown::render("T04_iris.Rmd", output_format = "html_document")
-rmarkdown::render("T04_iris.Rmd", output_format = "pdf_document")
+Para reproduzir:
+
+```sh
+Rscript gerar_figuras.R
+pdflatex main.tex
+pdflatex main.tex
 ```
-
-Dependências: R, `ggplot2`, `class`, `knitr` e `rmarkdown`.
