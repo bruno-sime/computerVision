@@ -25,7 +25,7 @@
 {\normalsize Bruno Sime Ferreira Nunes}\par
 {\small Curitiba, 2026}
 \end{center}
-\noindent\textbf{Resumo.} Este trabalho investiga a viabilidade de estimar o tempo sentado em um restaurante universitário a partir de uma câmera de segurança fixa. Analisa-se uma gravação de aproximadamente três horas, cobrindo o período informado das 11h às 14h. Comparam-se quatro configurações de YOLO11-Pose e BoT-SORT, variando tamanho do modelo, frequência de observação e tolerância a perdas. Todas percorreram os 107.981 quadros do arquivo. Foram emitidos entre 4.280 e 7.203 identificadores, que não equivalem a usuários distintos. Propõe-se ainda um pós-processamento geométrico e temporal para quatro assentos, com aparência da roupa e inspeção visual amostral. A checagem pontual de ocupação apresentou 22 a 24 concordâncias em 24 estados, mas episódios visuais foram truncados ou divididos. Conclui-se que detecção pontual e continuidade temporal são problemas distintos: os resultados permitem avaliar o método, mas não sustentam uma média validada de tempo sentado dos frequentadores.
+\noindent\textbf{Resumo.} Este trabalho estima a permanência sentada em uma amostra de assento de restaurante universitário e avalia quatro configurações de visão computacional. Uma gravação de aproximadamente três horas, no período informado das 11h às 14h, foi processada com YOLO11-Pose e BoT-SORT. Todas as configurações percorreram os 107.981 quadros do arquivo. A associação geométrica contempla quatro regiões de assento; a conferência temporal aprofundada concentra-se em uma delas, S2, escolhida por visibilidade. Uma revisão visual por IA identificou cinco sessões completas e uma censurada ao final. Usando pontos médios dos intervalos de sentar e levantar, obteve-se média nominal de \textbf{16 min 16 s}, mediana de 14 min 10 s e durações de 5 min 44 s a 25 min 02 s. A triagem utiliza quadros de um minuto, a conferência interna dez segundos e o refinamento de eventos dois segundos. O resultado descreve apenas as sessões completas observáveis desse assento. A amostra pequena, as pausas potencialmente não observadas e a ausência de validação humana independente impedem generalizar a média ao RU inteiro ou declarar precisão operacional do método automático.
 
 \noindent\textbf{Palavras-chave:} visão computacional; rastreamento; estimação de pose; ocupação de assentos; análise de vídeo.
 
@@ -34,7 +34,7 @@ Estimar a permanência à mesa pode apoiar estudos de utilização de um restaur
 
 O rastreamento de múltiplos objetos associa detecções entre quadros. O BoT-SORT combina componentes de movimento e, opcionalmente, aparência e compensação de câmera \cite{aharon2022}. Entretanto, bons resultados em conjuntos de pedestres não garantem continuidade em pessoas sentadas parcialmente encobertas. A própria associação de detecções de baixa confiança busca reduzir perdas e trajetórias fragmentadas \cite{zhang2022}.
 
-O objetivo é investigar a viabilidade dessa estimativa na gravação disponível, comparar quatro configurações e testar a passagem de trajetórias para episódios candidatos em assentos fixos. A contribuição é uma avaliação reproduzível que distingue identificadores, ocupação pontual e permanência de um mesmo ocupante. O estudo é exploratório: não há teste independente com sessões humanas densamente anotadas.
+O objetivo é obter uma média descritiva de sessões completas por revisão visual, comparar quatro configurações automáticas e distinguir identificadores de permanências reais. A contribuição combina execução reproduzível e uma tabela temporal auditável. O estudo é de caso: a conferência foi realizada por IA, sem validação humana independente ou teste separado.
 
 \noindent\textbf{Código e materiais:} \url{https://github.com/bruno-sime/computerVision}. Os arquivos desta entrega estão organizados para publicação nesse repositório.
 
@@ -69,27 +69,48 @@ O buffer foi convertido para número de observações, preservando a duração n
 O servidor Ubuntu possuía NVIDIA RTX 6000 Ada de 48 GB, PyTorch 2.15.0 e Ultralytics 8.4.214. B e C foram executados simultaneamente, enquanto A e D tiveram execuções separadas. Por isso, os tempos registrados são operacionais, e não uma comparação controlada de eficiência entre modelos.
 
 \clearpage
-\section{Associação aos assentos e segmentação}
-\subsection{Regiões geométricas}
-Selecionaram-se quatro regiões próximas à câmera, na lateral esquerda da mesa em primeiro plano (Figura~\ref{fig:assentos}). O conjunto permanece fixo nas três horas e prioriza visibilidade, sem amostragem aleatória dos usuários.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.43\textwidth]{figuras/assentos.png}
-\caption{Regiões elípticas para associação do quadril aos assentos. O retângulo da mesa é esquemático, sem escala métrica.}
-\label{fig:assentos}
-\fontedados{elaboração a partir do enquadramento}
+\section*{Exemplos visuais da gravação}
+As imagens apresentam o enquadramento real e duas posturas no assento S2. Máscaras e pixelização ocultam detalhes faciais, sem alteração da postura corporal visível. Os instantes ilustrativos não substituem as janelas de marcação dos eventos usadas no cálculo da média.
+\begin{figure}[H]\centering
+\includegraphics[width=0.95\textwidth]{figuras/exemplos/enquadramento.png}
+\caption{Enquadramento em 3.600,086 s, aproximadamente às 12h, com a região dos assentos demarcada. A região distante foi pixelizada e detalhes faciais foram ocultados.}
+\fontedados{quadro real extraído da gravação e editado apenas para ocultação e demarcação}
 \end{figure}
-Calcula-se o centro ponderado dos quadris, com confiança mínima 0,40 em ao menos um quadril e um ombro. Os ombros devem estar 25 pixels acima do quadril. Para a região $j$:
+\begin{figure}[H]\centering
+\begin{minipage}{0.44\textwidth}\centering
+\includegraphics[height=6cm]{figuras/exemplos/sentado.png}\\
+\small (a) Sentado: 11h35min20s.
+\end{minipage}\hfill
+\begin{minipage}{0.44\textwidth}\centering
+\includegraphics[height=6cm]{figuras/exemplos/em_pe.png}\\
+\small (b) Em pé: 11h41min02s.
+\end{minipage}
+\caption{Exemplos da sessão E2 no assento S2. Os recortes preservam a cadeira e a postura, com a região da cabeça ocultada. A marcação temporal considera as janelas dos eventos e não apenas estes quadros.}
+\fontedados{recortes reais dos instantes 2.120 e 2.462 s da gravação}
+\end{figure}
+
+\clearpage
+\section{Associação aos assentos e conferência visual}
+\subsection{Hipótese geométrica de ocupação}
+A etapa automática contempla quatro regiões próximas à câmera, na lateral esquerda da mesa em primeiro plano. A seleção prioriza visibilidade e mantém as regiões fixas durante as três horas, sem amostragem aleatória de usuários. As posições e os parâmetros estão em \texttt{dataset/assentos.json}.
+
+Calcula-se o centro ponderado dos quadris, exigindo confiança mínima 0,40 em ao menos um quadril e um ombro. Os ombros devem estar 25 pixels acima do quadril. A distância ao centro da região $j$ é
 \begin{equation}
- d_j=\left(\frac{x-x_j}{27}\right)^2+\left(\frac{y-y_j}{20}\right)^2.
+d_j=\left(\frac{x-x_j}{27}\right)^2+\left(\frac{y-y_j}{20}\right)^2.
 \end{equation}
-Aceitam-se candidatos com $d_j\leq1$. Os centros constam de \texttt{dataset/assentos.json}. A associação gulosa prioriza menor distância, sem reutilizar ID ou assento na observação. A geometria é hipótese de ocupação, não prova de contato com a cadeira.
+Aceitam-se candidatos com $d_j\leq1$. A associação gulosa prioriza menor distância, sem reutilizar ID ou assento na observação. Essa geometria é uma hipótese de ocupação, não prova de contato com a cadeira. O assento S2 usa centro aproximado $(118,595)$ pixels para o quadril.
 
-\subsection{Episódios candidatos}
-O pós-processamento utiliza uma grade comum de 5 s nas quatro condições; portanto, reduz a resolução temporal dos resultados de C nesta etapa. Extrai-se a mediana CIELAB da região do torso delimitada por ombros e quadris. Uma distância de cor superior a 35, persistente em três observações, sinaliza possível troca de ocupante em relação à mediana das seis últimas cores aceitas. A aparência é da roupa, sem identificação da pessoa.
+\subsection{Pós-processamento automático}
+Uma grade comum de 5 s reduz a resolução temporal das quatro condições nesta etapa. Extrai-se a mediana CIELAB do torso entre ombros e quadris. Distância de cor superior a 35 por três observações sinaliza possível troca de ocupante frente à mediana das seis últimas cores aceitas. A aparência é da roupa, sem reconhecimento facial.
 
-Permitem-se até duas posições consecutivas sem detecção, encerrando o episódio na terceira ausência. Retêm-se intervalos de pelo menos 60 s e sinalizam-se as bordas da gravação. O fim corresponde à última observação aceita mais 5 s, limitado ao arquivo. O intervalo inclui lacunas toleradas; seu suporte observado é registrado separadamente. Mudanças de postura, roupas semelhantes e erro nos pontos corporais podem causar divisões ou uniões indevidas.
+A heurística tolera duas posições sem detecção, encerra na terceira ausência e mantém intervalos de pelo menos 60 s. Seu fim corresponde à última observação aceita mais 5 s. Esses candidatos incluem lacunas toleradas e não são utilizados diretamente para calcular a média principal. Roupas parecidas, postura e pontos corporais incorretos podem unir ou dividir episódios.
+
+\subsection{Referência temporal e cálculo da média}
+A revisão aprofundada acompanha o assento S2 em todo o arquivo. A triagem visual em quadros separados por 60 s localiza sessões com pelo menos um minuto. Os episódios identificados são conferidos internamente em quadros a cada 10 s, usando o contexto da cadeira e a continuidade visual do ocupante. Não se detectaram pausas em pé nos instantes internos aceitos; pausas breves entre amostras podem passar despercebidas.
+
+O início é a transição para sentar e o fim é levantar. Janelas com quadros separados por 2 s delimitam cada evento entre o último estado anterior e o primeiro posterior observável. Quando a postura ou uma oclusão tornam o instante ambíguo, conserva-se um intervalo maior, de até 10 s. Usa-se seu ponto médio para a duração nominal. Cinco sessões têm ambas as bordas observáveis. A sexta começa no vídeo, mas permanece em andamento ao final e é excluída da média de completas.
+
+A revisão foi executada pelo assistente de IA. Ela constitui uma referência visual assistida e auditável, sem atribuição de conferência humana ao autor. Os intervalos, critérios e proveniência constam do CSV e do script de cálculo. A média descreve permanência sentada observável na resolução adotada, sem alegação de verificação contínua quadro a quadro ou validação independente.
 
 \clearpage
 \section{Resultados das quatro configurações}
@@ -126,52 +147,56 @@ A queda no fim do período é coerente com as amostras visuais de esvaziamento. 
 Os tempos observados foram 364,6 s (A), 387,3 s (B), 912,9 s (C) e 357,1 s (D). A concorrência de B e C e o maior número de observações em C impedem interpretar esses valores como velocidade isolada das arquiteturas. Todos os registros e tabelas de IDs foram conferidos entre si.
 
 \clearpage
-\section{Verificação da ocupação e limites temporais}
-Realizou-se uma checagem visual assistida de quatro estados de assento em seis instantes: 0, 1.800, 3.600, 5.400, 7.200 e 10.790 s. Em 24 estados correlacionados, A, C e D concordaram com as 24 referências; B concordou com 22, apresentando duas ausências de detecção. Trata-se de inspeção amostral assistida por modelo multimodal, sem dupla anotação humana independente e sem conjunto de teste separado. O resultado não valida duração nem pode ser extrapolado como acurácia geral.
+\section{Média das sessões visualmente revisadas}
+A Tabela~\ref{tab:media} apresenta todas as cinco sessões completas identificadas na revisão temporal do assento S2. Os horários são relativos ao início informado às 11h e representam pontos médios dos intervalos dos eventos. Cada linha corresponde a uma permanência do mesmo ocupante observável, sem usar a duração de um ID como referência.
 
 \begin{table}[H]
 \centering
-\caption{Intervalos candidatos dos quatro assentos, após pós-processamento.}
-\label{tab:candidatas}
-\small
-\begin{tabular}{crrrr}
+\caption{Sessões completas revisadas por IA no assento S2.}
+\label{tab:media}
+\begin{tabular}{cllr}
 \toprule
-Cond. & Candidatos & Sem borda & Média do intervalo & Mediana\\
- & & incompleta & (min) & (min)\\
+Sessão & Início nominal & Fim nominal & Duração nominal\\
 \midrule
-% BEGIN CANDIDATAS
-A & 46 & 45 & 3,16 & 2,00 \\
-B & 60 & 59 & 2,75 & 1,83 \\
-C & 46 & 45 & 3,19 & 1,92 \\
-D & 46 & 45 & 3,16 & 2,00 \\
-% END CANDIDATAS
+% BEGIN SESSOES REVISADAS
+E1 & 11:13:42 & 11:27:52 & 14 min 10 s \\
+E2 & 11:35:14 & 11:40:58 & 5 min 44 s \\
+E3 & 11:41:54 & 12:06:56 & 25 min 02 s \\
+E4 & 12:08:54 & 12:31:48 & 22 min 54 s \\
+E5 & 12:33:57 & 12:47:27 & 13 min 30 s \\
+% END SESSOES REVISADAS
 \bottomrule
 \end{tabular}
-\fontedados{segmentação geométrica e por cor; estatísticas apenas dos candidatos sem borda}
+\fontedados{revisão visual por IA e cálculo reproduzível, sem validação humana independente}
 \end{table}
-\textbf{Os valores da Tabela~\ref{tab:candidatas} não são médias de tempo sentado dos estudantes.} São estatísticas de saídas ainda sujeitas à fragmentação e às lacunas. O descarte de episódios curtos e de borda altera a distribuição; detecções tardias podem ocultar uma borda realmente incompleta.
+As cinco durações somam 4.880 s. Assim,
+\begin{equation}
+\bar t=\frac{850+344+1502+1374+810}{5}=976\ \mathrm{s}
+=\textbf{16 min 16 s}.
+\end{equation}
+A mediana é \textbf{14 min 10 s}. O mínimo observado é 5 min 44 s e o máximo, 25 min 02 s. Trata-se da média nominal de cinco sessões completas em \textbf{um assento}, e não da média de todos os frequentadores do restaurante.
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{figuras/contraste_temporal.png}
-\caption{Quatro contrastes ilustrativos. As referências visuais são delimitadas por quadros separados por 60 s, com incerteza de até 60 s na duração pelo ponto médio. Os segmentos coloridos são candidatos.}
-\label{fig:temporal}
-\fontedados{inspeção visual assistida e pós-processamento}
-\end{figure}
-Em R2 (S1), a permanência visual aproxima-se de 15 min, enquanto A retorna 760 s (12 min 40 s), subestimando o ponto médio em 140 s. Em R3 e R4, A divide cada referência em três candidatos. Os casos foram escolhidos após inspeção para diagnóstico, não para teste independente. Pausas entre imagens não foram descartadas; não se afirma continuidade sentada abaixo de 60 s.
+A sessão E6 tem início entre 9.714 e 9.716 s, aproximadamente 13h41min55s, e continua sentada no último quadro conferido em 10.798 s. Seu trecho observado tem pelo menos 18 min 02 s. Como não há instante de levantar, não se substitui seu tempo total pelo término do vídeo nem se inclui E6 como sessão completa.
+
+Usar os limites inferiores e superiores dos eventos resulta em médias entre 970,8 e 981,2 s, aproximadamente 16 min 11 s a 16 min 21 s. Esse intervalo representa \textbf{somente a quantização dos limites}; não é intervalo de confiança e não inclui erro de interpretação, oclusão ou pausas breves não observadas. Excluir a sessão censurada também pode enviesar a média.
+
+\subsection{Relação com as previsões automáticas}
+A média principal vem da revisão temporal, sem substituir as durações por segmentos da heurística. Os quatro pós-processamentos continuam produzindo fragmentos e associações que exigem conferência. Na checagem auxiliar de 24 estados em seis instantes, A, C e D concordaram com 24 referências assistidas e B com 22. Essa concordância pontual não comprova recuperação correta de sessões completas.
+
+Os resultados automáticos e as respectivas médias de candidatos permanecem nos dados de diagnóstico, com identificação explícita de que não representam tempos reais confirmados. A comparação com a referência de S2 pode orientar a triagem, mas não constitui avaliação humana independente ou teste separado dos ajustes.
 
 \clearpage
 \section{Discussão e conclusão}
-A concordância pontual não assegura episódios completos: uma detecção correta pode coexistir com início tardio, fim antecipado ou divisão da permanência. Pessoas diferentes também podem ocupar continuamente a mesma cadeira. A unidade necessária é a sessão de um ocupante, não o ID ou o assento isoladamente.
+A revisão visual acrescenta uma resposta quantitativa: \textbf{16 min 16 s de média nominal nas cinco sessões completas observáveis do assento S2}, durante uma gravação que cobre aproximadamente as 11h às 14h. A mediana de 14 min 10 s e a amplitude de 5 min 44 s a 25 min 02 s mostram variação entre episódios. Esse valor é uma descrição da amostra, não uma estimativa representativa do restaurante inteiro.
 
-As quatro condições cobrem as três horas, mas a medição temporal permanece sensível à geometria, às oclusões e à aparência. A é referência de desenvolvimento, sem superioridade demonstrada. A grade comum de 5 s pode ocultar benefícios da maior frequência de C; portanto, essa etapa não isola o efeito da frequência na duração final. A semelhança entre A e D decorre também de a segmentação não usar o ID como critério de continuidade.
+O principal limite é a amostra de conveniência de um único assento, câmera e almoço. Não há confirmação de que todos os ocupantes sejam estudantes. A triagem de um minuto pode deixar passar visitas mais curtas; a conferência interna de dez segundos pode não revelar pausas breves. A censura de E6 impede conhecer sua permanência total e a exclusão de incompletas pode enviesar a média. Os limites de eventos exprimem incerteza de marcação, sem demonstrar exatidão fisiológica do tempo sentado.
 
-O estudo envolve uma câmera, uma sexta-feira e quatro regiões escolhidas por visibilidade; não distingue estudantes de outros frequentadores. A referência assistida é pequena, sem anotadores independentes ou teste temporal denso. Pausas entre imagens podem passar despercebidas. Inspeção e desenvolvimento no mesmo vídeo impedem alegar generalização. Roupas semelhantes podem unir ocupantes; postura e iluminação podem dividir um episódio. Excluir bordas incompletas e intervalos curtos produz viés.
+A revisão foi executada por IA e não recebeu dupla anotação humana independente. O mesmo vídeo apoiou desenvolvimento e inspeção, sem separação de calibração e teste. Portanto, não se afirma validação operacional da medição automática nem generalização a outros assentos ou dias. Para isso, são necessárias referências humanas independentes, maior cobertura e avaliação de erros de início, fim e duração, além de sessões perdidas e extras.
 
-Conclui-se que o método é executável e reproduzível, mas \textbf{não se obteve uma média validada de tempo sentado dos frequentadores}. Os intervalos candidatos servem à triagem e à auditoria. Para uso quantitativo, é necessário anotar sessões completas, separar calibração de avaliação e medir erro de início, fim e duração, com sessões recuperadas, perdidas e extras. O resultado negativo delimita o que os dados permitem afirmar, sem confundir desempenho computacional com validade da medição.
+Conclui-se que a integração de detecção, rastreamento e revisão visual permite produzir uma média auditável da amostra e expõe os limites do uso direto dos IDs. O código reproduz o cálculo de 976 s a partir de cinco linhas de referência, preservando a procedência e o caso censurado. A contribuição é esse resultado descritivo, acompanhado da comparação experimental e de uma delimitação explícita do seu alcance.
 
 \section*{Disponibilidade e reprodução}
-A entrega para o Git indicado reúne código, parâmetros, manifesto, referências tabulares, resultados agregados, figuras e fonte \LaTeX. O vídeo e os pesos não integram o Git; a reprodução integral exige a gravação descrita no manifesto. Não são distribuídos quadros identificáveis. O README documenta os comandos. A base abnTeX2/UFPR foi adaptada ao artigo, sem capa, folha de rosto ou sumário.
+A entrega para o Git indicado reúne código, parâmetros, manifesto, CSV das sessões revisadas, cálculo da média, resultados, figuras, slides e fonte \LaTeX. Vídeo e quadros identificáveis não integram o pacote público. O README documenta a reprodução e o acesso necessário à gravação. A base abnTeX2/UFPR foi adaptada ao artigo sucinto, sem capa, folha de rosto ou sumário.
 
 \begingroup\small
 \bibliography{ref}
