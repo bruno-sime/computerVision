@@ -1,37 +1,46 @@
-# Segmentacao de imagem por textura em C++
+# T01 — Segmentação por textura
 
-Implementacao classica, sem inteligencia artificial, para analisar `image.jpg`.
+Este trabalho segmenta uma fotografia de uma placa eletrônica usando descritores de textura e K-Means. A implementação principal está em C++17 com OpenCV e não usa modelos de aprendizado profundo.
 
-O relatorio academico completo esta em [RELATORIO.md](RELATORIO.md).
+## Método
 
-## O que o programa faz
+1. A imagem é convertida para tons de cinza.
+2. São selecionados 32 recortes de `512 x 512` pixels.
+3. Cada recorte é processado com oito filtros: horizontal, vertical, diagonais de 45° e 135°, Laplaciano, LoG, difusão e circular.
+4. Os filtros são aplicados em três escalas de uma pirâmide Gaussiana.
+5. A média do módulo das respostas forma um vetor de 24 atributos por recorte.
+6. Os vetores são padronizados e agrupados com K-Means.
 
-1. Carrega a fotografia colorida e converte para tons de cinza.
-2. Seleciona 32 recortes de `512x512` em uma grade regular.
-3. Aplica oito filtros de textura: horizontal, vertical, 45 graus, 135 graus, Laplaciano, LoG, difusao e circular.
-4. Processa cada filtro em tres escalas usando uma piramide Gaussiana (`1`, `1/2` e `1/4`), totalizando `8 x 3 = 24` atributos.
-5. Calcula a media do modulo da resposta do filtro dentro de cada janela.
-6. Padroniza os vetores e agrupa as regioes com K-Means, usando distancia euclidiana.
-7. Gera uma imagem com a categorizacao sobre a fotografia e uma montagem dos recortes.
+O resultado mostra os grupos sobre a imagem original e organiza os recortes em uma montagem para facilitar a comparação visual.
 
-## Compilacao e execucao no macOS
+## Dependências
 
-O OpenCV deve estar instalado pelo Homebrew:
+No macOS, instale o OpenCV e o Ninja:
 
 ```bash
-brew install opencv
-cmake -S . -B build -G Ninja -DOpenCV_DIR="$(brew --prefix opencv)/lib/cmake/opencv4"
+brew install opencv ninja
+```
+
+## Compilação e execução
+
+Dentro desta pasta:
+
+```bash
+cmake -S . -B build -G Ninja \
+  -DOpenCV_DIR="$(brew --prefix opencv)/lib/cmake/opencv4"
 cmake --build build
 ./build/segmentacao_textura image.jpg resultados_cpp 32 4
 ```
 
-Os argumentos sao, respectivamente, imagem de entrada, pasta de saida, quantidade de recortes e quantidade de grupos. O gerador Ninja e usado porque o `:` presente no caminho deste workspace causa conflito com regras do Make.
+Os quatro argumentos do programa são, nesta ordem: imagem de entrada, pasta de saída, quantidade de recortes e quantidade de grupos. O Ninja evita problemas com o caractere `:` presente no caminho do workspace.
 
-## Resultados
+Também há uma implementação em Python em `segmentacao_textura.py`, usada para comparação e geração dos resultados da pasta `resultados/`.
 
-- `resultados_cpp/categorizacao_imagem.jpg`: grupos desenhados sobre a imagem original.
-- `resultados_cpp/categorizacao_recortes.jpg`: recortes 512x512 em uma montagem com seus grupos.
-- `resultados_cpp/descritores_24d.csv`: matriz dos vetores, coordenadas, nomes dos filtros e grupos.
-- `resultados_cpp/descritores_24d.npy`: matriz 32x24 em formato NumPy para analise posterior.
+## Saídas
 
-O programa tambem imprime a compactacao final do K-Means, util para comparar execucoes com diferentes quantidades de grupos.
+- `categorizacao_imagem.jpg`: grupos desenhados sobre a imagem original;
+- `categorizacao_recortes.jpg`: montagem dos recortes e seus grupos;
+- `descritores_24d.csv`: descritores, coordenadas, filtros e grupos;
+- `descritores_24d.npy`: matriz `32 x 24` em formato NumPy.
+
+O relatório completo está em [RELATORIO.md](RELATORIO.md).
