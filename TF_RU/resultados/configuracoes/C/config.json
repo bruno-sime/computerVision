@@ -1,0 +1,17 @@
+{
+  "command": "run",
+  "video": "/home/bsfn19/Video_1.mp4",
+  "output": "work/estudo_20261115_202015_2136803/x_5fps_gap15",
+  "model": "yolo11x-pose.pt",
+  "step": 0.2,
+  "imgsz": 1280,
+  "conf": 0.15,
+  "gap": 15.0,
+  "fps": 9.999762000830312,
+  "frame_count": 107981,
+  "torch": "2.15.0",
+  "ultralytics": "8.4.214",
+  "gpu": "NVIDIA RTX 6000 Ada Generation",
+  "scope": "11:00–14:00, conforme informado pelo usuário; cobertura limitada à gravação e ao campo visível",
+  "note": "IDs de rastreamento não identificam pessoas e não equivalem a sessões sentadas."
+}

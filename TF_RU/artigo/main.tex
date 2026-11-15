@@ -1,0 +1,179 @@
+\documentclass[article,12pt,a4paper,oneside,brazil]{abntex2}
+\usepackage[utf8]{inputenc}
+\usepackage{pacotes}
+\usepackage{booktabs}
+\geometry{left=3cm,right=2cm,top=2.5cm,bottom=2.5cm}
+\hypersetup{pdftitle={Estimativa exploratória de permanência em assentos de um restaurante universitário},pdfauthor={Bruno Sime Ferreira Nunes},colorlinks=true,linkcolor=black,citecolor=black,urlcolor=blue}
+\setlength{\parindent}{1.2em}
+\setlength{\parskip}{2pt}
+\setlength{\abovecaptionskip}{5pt}
+\setlength{\belowcaptionskip}{3pt}
+\captionsetup{font=small}
+\pagestyle{plain}
+\newcommand{\fontedados}[1]{\par\vspace{3pt}{\footnotesize Fonte: #1.}\par}
+\makepagestyle{artigoUFPR}
+\makeoddfoot{artigoUFPR}{}{\small\thepage}{}
+\makeevenfoot{artigoUFPR}{}{\small\thepage}{}
+\begin{document}
+\pagestyle{artigoUFPR}
+\SingleSpacing
+\begin{center}
+{\small UNIVERSIDADE FEDERAL DO PARANÁ\\Visão Computacional e Percepção --- Prof. Eduardo Todt}\par
+\vspace{0.35cm}
+{\Large\bfseries Estimativa exploratória de permanência em assentos de um restaurante universitário}\par
+\vspace{0.2cm}
+{\normalsize Bruno Sime Ferreira Nunes}\par
+{\small Curitiba, 2026}
+\end{center}
+\noindent\textbf{Resumo.} Este trabalho investiga a viabilidade de estimar o tempo sentado em um restaurante universitário a partir de uma câmera de segurança fixa. Analisa-se uma gravação de aproximadamente três horas, cobrindo o período informado das 11h às 14h. Comparam-se quatro configurações de YOLO11-Pose e BoT-SORT, variando tamanho do modelo, frequência de observação e tolerância a perdas. Todas percorreram os 107.981 quadros do arquivo. Foram emitidos entre 4.280 e 7.203 identificadores, que não equivalem a usuários distintos. Propõe-se ainda um pós-processamento geométrico e temporal para quatro assentos, com aparência da roupa e inspeção visual amostral. A checagem pontual de ocupação apresentou 22 a 24 concordâncias em 24 estados, mas episódios visuais foram truncados ou divididos. Conclui-se que detecção pontual e continuidade temporal são problemas distintos: os resultados permitem avaliar o método, mas não sustentam uma média validada de tempo sentado dos frequentadores.
+
+\noindent\textbf{Palavras-chave:} visão computacional; rastreamento; estimação de pose; ocupação de assentos; análise de vídeo.
+
+\section{Introdução}
+Estimar a permanência à mesa pode apoiar estudos de utilização de um restaurante universitário. A câmera fixa permite acompanhar a mesma região durante o almoço, mas a cena contém pessoas em circulação, oclusões pelas mesas e substituição de ocupantes. Assim, acompanhar uma caixa ao longo do vídeo não demonstra que a pessoa permaneceu sentada durante todo esse intervalo.
+
+O rastreamento de múltiplos objetos associa detecções entre quadros. O BoT-SORT combina componentes de movimento e, opcionalmente, aparência e compensação de câmera \cite{aharon2022}. Entretanto, bons resultados em conjuntos de pedestres não garantem continuidade em pessoas sentadas parcialmente encobertas. A própria associação de detecções de baixa confiança busca reduzir perdas e trajetórias fragmentadas \cite{zhang2022}.
+
+O objetivo é investigar a viabilidade dessa estimativa na gravação disponível, comparar quatro configurações e testar a passagem de trajetórias para episódios candidatos em assentos fixos. A contribuição é uma avaliação reproduzível que distingue identificadores, ocupação pontual e permanência de um mesmo ocupante. O estudo é exploratório: não há teste independente com sessões humanas densamente anotadas.
+
+\noindent\textbf{Código e materiais:} \url{https://github.com/bruno-sime/computerVision}. Os arquivos desta entrega estão organizados para publicação nesse repositório.
+
+\clearpage
+\section{Materiais e desenho experimental}
+\subsection{Gravação e integridade}
+Utilizou-se um MP4/H.264 de uma sexta-feira, com 1.562.926.905 bytes, resolução de $1280\times720$ pixels, taxa próxima de 10 quadros/s e duração de 10.798,357 s. O início às 11h foi informado pelo responsável pelo arquivo; o término corresponde aproximadamente a 13h59min58s. O campo visível da câmera não cobre necessariamente todos os assentos do estabelecimento.
+
+A contagem de 107.981 quadros lidos coincidiu com a esperada em todas as execuções. A maior separação entre timestamps de pacotes do arquivo foi 0,140 s. O hash SHA-256 calculado localmente coincidiu com o registrado no servidor; o valor completo consta do manifesto. Essas verificações comprovam integridade entre as cópias e cobertura do arquivo, sem demonstrar ausência de edição anterior à exportação.
+
+\subsection{Modelos e parâmetros}
+Foram usados pesos pré-treinados de YOLO11m-pose e YOLO11x-pose, sem treinamento ou ajuste fino no vídeo. A família oferece detecção de pontos corporais \cite{ultralytics11}. As inferências utilizaram entrada 1280, confiança mínima 0,15, IoU 0,60 e precisão FP16. O BoT-SORT operou sem ReID e sem compensação global de movimento, pois a câmera é fixa. Não houve reconhecimento facial.
+
+\begin{table}[H]
+\centering
+\caption{Condições experimentais; alteração de uma variável em relação a A.}
+\label{tab:configs}
+\begin{tabular}{clccp{4.8cm}}
+\toprule
+Condição & Modelo & Obs./s & Buffer & Comparação com A\\
+\midrule
+A & YOLO11x-pose & 2 & 15 s & Referência\\
+B & YOLO11m-pose & 2 & 15 s & Tamanho do modelo\\
+C & YOLO11x-pose & 5 & 15 s & Frequência de observação\\
+D & YOLO11x-pose & 2 & 5 s & Tolerância a perdas\\
+\bottomrule
+\end{tabular}
+\fontedados{configurações efetivamente executadas}
+\end{table}
+O buffer foi convertido para número de observações, preservando a duração nominal ao mudar a frequência. Ele mantém trajetórias perdidas disponíveis para associação; não autoriza contabilizar o intervalo como tempo sentado. O estudo não é um experimento fatorial completo.
+
+O servidor Ubuntu possuía NVIDIA RTX 6000 Ada de 48 GB, PyTorch 2.15.0 e Ultralytics 8.4.214. B e C foram executados simultaneamente, enquanto A e D tiveram execuções separadas. Por isso, os tempos registrados são operacionais, e não uma comparação controlada de eficiência entre modelos.
+
+\clearpage
+\section{Associação aos assentos e segmentação}
+\subsection{Regiões geométricas}
+Selecionaram-se quatro regiões próximas à câmera, na lateral esquerda da mesa em primeiro plano (Figura~\ref{fig:assentos}). O conjunto permanece fixo nas três horas e prioriza visibilidade, sem amostragem aleatória dos usuários.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.43\textwidth]{figuras/assentos.png}
+\caption{Regiões elípticas para associação do quadril aos assentos. O retângulo da mesa é esquemático, sem escala métrica.}
+\label{fig:assentos}
+\fontedados{elaboração a partir do enquadramento}
+\end{figure}
+Calcula-se o centro ponderado dos quadris, com confiança mínima 0,40 em ao menos um quadril e um ombro. Os ombros devem estar 25 pixels acima do quadril. Para a região $j$:
+\begin{equation}
+ d_j=\left(\frac{x-x_j}{27}\right)^2+\left(\frac{y-y_j}{20}\right)^2.
+\end{equation}
+Aceitam-se candidatos com $d_j\leq1$. Os centros constam de \texttt{dataset/assentos.json}. A associação gulosa prioriza menor distância, sem reutilizar ID ou assento na observação. A geometria é hipótese de ocupação, não prova de contato com a cadeira.
+
+\subsection{Episódios candidatos}
+O pós-processamento utiliza uma grade comum de 5 s nas quatro condições; portanto, reduz a resolução temporal dos resultados de C nesta etapa. Extrai-se a mediana CIELAB da região do torso delimitada por ombros e quadris. Uma distância de cor superior a 35, persistente em três observações, sinaliza possível troca de ocupante em relação à mediana das seis últimas cores aceitas. A aparência é da roupa, sem identificação da pessoa.
+
+Permitem-se até duas posições consecutivas sem detecção, encerrando o episódio na terceira ausência. Retêm-se intervalos de pelo menos 60 s e sinalizam-se as bordas da gravação. O fim corresponde à última observação aceita mais 5 s, limitado ao arquivo. O intervalo inclui lacunas toleradas; seu suporte observado é registrado separadamente. Mudanças de postura, roupas semelhantes e erro nos pontos corporais podem causar divisões ou uniões indevidas.
+
+\clearpage
+\section{Resultados das quatro configurações}
+A Tabela~\ref{tab:resultados} resume as observações rastreadas. Cada ID é um identificador do algoritmo, não uma pessoa distinta. O intervalo de um ID é a diferença entre sua última e primeira observação e pode incluir oclusões, deslocamento ou associação incorreta.
+
+\begin{table}[H]
+\centering
+\caption{Resultados descritivos do rastreamento no arquivo completo.}
+\label{tab:resultados}
+\small
+\begin{tabular}{crrrrr}
+\toprule
+Cond. & Imagens & IDs & IDs $<30$ s & IDs $\geq10$ min & Det./imagem\\
+\midrule
+A & 21.597 & 4.280 & 70,89\% & 161 & 26,667\\
+B & 21.597 & 4.883 & 69,96\% & 138 & 26,166\\
+C & 53.992 & 7.203 & 76,83\% & 122 & 27,326\\
+D & 21.597 & 5.677 & 78,33\% & 141 & 26,365\\
+\bottomrule
+\end{tabular}
+\fontedados{auditoria integral dos registros JSONL}
+\end{table}
+B emitiu 14,1\% mais IDs que A; C, 68,3\%; e D, 32,6\%. A maior frequência não levou a menos IDs, e a menor tolerância aumentou sua proporção de intervalos breves. Essas diferenças são compatíveis com mudanças na observação de pessoas transitórias e na fragmentação, mas não permitem separar as causas sem referência de identidade. Menos IDs tampouco prova melhor rastreamento, pois associações incorretas podem unir pessoas diferentes.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figuras/deteccoes_por_faixa.png}
+\caption{Média das detecções rastreadas em faixas de 30 minutos. A tendência temporal não corresponde à ocupação real do restaurante.}
+\label{fig:faixas}
+\fontedados{registros das quatro execuções}
+\end{figure}
+A queda no fim do período é coerente com as amostras visuais de esvaziamento. Entretanto, as imagens mostram perdas no fundo e oclusões no primeiro plano. Não foram calculados precisão, recall, IDF1, MOTA ou HOTA, pois não há anotações independentes adequadas para essas métricas.
+
+Os tempos observados foram 364,6 s (A), 387,3 s (B), 912,9 s (C) e 357,1 s (D). A concorrência de B e C e o maior número de observações em C impedem interpretar esses valores como velocidade isolada das arquiteturas. Todos os registros e tabelas de IDs foram conferidos entre si.
+
+\clearpage
+\section{Verificação da ocupação e limites temporais}
+Realizou-se uma checagem visual assistida de quatro estados de assento em seis instantes: 0, 1.800, 3.600, 5.400, 7.200 e 10.790 s. Em 24 estados correlacionados, A, C e D concordaram com as 24 referências; B concordou com 22, apresentando duas ausências de detecção. Trata-se de inspeção amostral assistida por modelo multimodal, sem dupla anotação humana independente e sem conjunto de teste separado. O resultado não valida duração nem pode ser extrapolado como acurácia geral.
+
+\begin{table}[H]
+\centering
+\caption{Intervalos candidatos dos quatro assentos, após pós-processamento.}
+\label{tab:candidatas}
+\small
+\begin{tabular}{crrrr}
+\toprule
+Cond. & Candidatos & Sem borda & Média do intervalo & Mediana\\
+ & & incompleta & (min) & (min)\\
+\midrule
+% BEGIN CANDIDATAS
+A & 46 & 45 & 3,16 & 2,00 \\
+B & 60 & 59 & 2,75 & 1,83 \\
+C & 46 & 45 & 3,19 & 1,92 \\
+D & 46 & 45 & 3,16 & 2,00 \\
+% END CANDIDATAS
+\bottomrule
+\end{tabular}
+\fontedados{segmentação geométrica e por cor; estatísticas apenas dos candidatos sem borda}
+\end{table}
+\textbf{Os valores da Tabela~\ref{tab:candidatas} não são médias de tempo sentado dos estudantes.} São estatísticas de saídas ainda sujeitas à fragmentação e às lacunas. O descarte de episódios curtos e de borda altera a distribuição; detecções tardias podem ocultar uma borda realmente incompleta.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figuras/contraste_temporal.png}
+\caption{Quatro contrastes ilustrativos. As referências visuais são delimitadas por quadros separados por 60 s, com incerteza de até 60 s na duração pelo ponto médio. Os segmentos coloridos são candidatos.}
+\label{fig:temporal}
+\fontedados{inspeção visual assistida e pós-processamento}
+\end{figure}
+Em R2 (S1), a permanência visual aproxima-se de 15 min, enquanto A retorna 760 s (12 min 40 s), subestimando o ponto médio em 140 s. Em R3 e R4, A divide cada referência em três candidatos. Os casos foram escolhidos após inspeção para diagnóstico, não para teste independente. Pausas entre imagens não foram descartadas; não se afirma continuidade sentada abaixo de 60 s.
+
+\clearpage
+\section{Discussão e conclusão}
+A concordância pontual não assegura episódios completos: uma detecção correta pode coexistir com início tardio, fim antecipado ou divisão da permanência. Pessoas diferentes também podem ocupar continuamente a mesma cadeira. A unidade necessária é a sessão de um ocupante, não o ID ou o assento isoladamente.
+
+As quatro condições cobrem as três horas, mas a medição temporal permanece sensível à geometria, às oclusões e à aparência. A é referência de desenvolvimento, sem superioridade demonstrada. A grade comum de 5 s pode ocultar benefícios da maior frequência de C; portanto, essa etapa não isola o efeito da frequência na duração final. A semelhança entre A e D decorre também de a segmentação não usar o ID como critério de continuidade.
+
+O estudo envolve uma câmera, uma sexta-feira e quatro regiões escolhidas por visibilidade; não distingue estudantes de outros frequentadores. A referência assistida é pequena, sem anotadores independentes ou teste temporal denso. Pausas entre imagens podem passar despercebidas. Inspeção e desenvolvimento no mesmo vídeo impedem alegar generalização. Roupas semelhantes podem unir ocupantes; postura e iluminação podem dividir um episódio. Excluir bordas incompletas e intervalos curtos produz viés.
+
+Conclui-se que o método é executável e reproduzível, mas \textbf{não se obteve uma média validada de tempo sentado dos frequentadores}. Os intervalos candidatos servem à triagem e à auditoria. Para uso quantitativo, é necessário anotar sessões completas, separar calibração de avaliação e medir erro de início, fim e duração, com sessões recuperadas, perdidas e extras. O resultado negativo delimita o que os dados permitem afirmar, sem confundir desempenho computacional com validade da medição.
+
+\section*{Disponibilidade e reprodução}
+A entrega para o Git indicado reúne código, parâmetros, manifesto, referências tabulares, resultados agregados, figuras e fonte \LaTeX. O vídeo e os pesos não integram o Git; a reprodução integral exige a gravação descrita no manifesto. Não são distribuídos quadros identificáveis. O README documenta os comandos. A base abnTeX2/UFPR foi adaptada ao artigo, sem capa, folha de rosto ou sumário.
+
+\begingroup\small
+\bibliography{ref}
+\endgroup
+\end{document}

@@ -1,0 +1,5 @@
+case,seat,start_low,start_high,end_low,end_high,start_mid,end_mid,duration_mid_min,origin
+R1,S4,420,480,660,720,450.0,690.0,4.0,Inspeção visual assistida de quadros a cada 60 s; não referência humana independente; pausas entre amostras não excluídas.
+R2,S1,6780,6840,7680,7740,6810.0,7710.0,15.0,Inspeção visual assistida de quadros a cada 60 s; não referência humana independente; pausas entre amostras não excluídas.
+R3,S3,7080,7140,7740,7800,7110.0,7770.0,11.0,Inspeção visual assistida de quadros a cada 60 s; não referência humana independente; pausas entre amostras não excluídas.
+R4,S3,7980,8040,8400,8460,8010.0,8430.0,7.0,Inspeção visual assistida de quadros a cada 60 s; não referência humana independente; pausas entre amostras não excluídas.

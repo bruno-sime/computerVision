@@ -1,0 +1,50 @@
+anyio==4.16.0
+certifi==2026.10.23
+charset-normalizer==3.5.2
+contourpy==1.4.0
+cycler==0.12.1
+filelock @ file:///home/task_179435508668586/croot/filelock_1794355116336/work
+fonttools==4.68.0
+fsspec @ file:///home/task_179252351620872/croot/fsspec_1792523545995/work
+gmpy2 @ file:///home/task_179201924640089/croot/gmpy2_1792019304366/work
+h11==0.16.0
+httpcore==1.0.9
+httpx==0.28.1
+idna==3.20
+Jinja2 @ file:///home/task_179201923310364/croot/jinja2_1792019286909/work
+kiwisolver==1.5.1
+lap==0.5.14
+MarkupSafe @ file:///home/task_179201595759824/croot/markupsafe_1792015992410/work
+matplotlib==3.11.2
+mkl-service @ file:///home/task_179214462448789/croot/mkl-service_1792144657806/work
+mkl_fft @ file:///home/task_179260062811628/croot/mkl_fft_1792600660652/work
+mkl_random @ file:///home/task_179245505059169/croot/mkl_random_1792455092635/work
+mpmath @ file:///home/task_179306318426803/croot/mpmath_1793063229184/work
+networkx @ file:///home/task_179252340978177/croot/networkx_1792523436907/work
+numpy==2.5.4
+nvidia-ml-py==13.615.71
+opencv-python==5.0.0.93
+optree @ file:///home/task_179252374469727/croot/optree_1792523771708/work
+packaging==26.3
+pillow @ file:///home/task_179340273525652/croot/pillow_1793402769507/work
+polars==2.1.0
+polars-runtime-32==2.1.0
+psutil==7.2.2
+pycocotools==2.0.11
+pyparsing==3.3.3
+python-dateutil==4.0.0
+PyYAML==6.0.3
+requests==2.34.2
+scipy==1.18.1
+setuptools==84.2.1
+sympy @ file:///home/task_179306328108206/croot/sympy_1793063538773/work
+torch @ file:///home/task_179331722191572/croot/libtorch_1793317295873/work
+torchvision @ file:///home/task_179367198166231/croot/torchvision_1793672055917/work
+tqdm==4.70.1
+triton @ file:///home/task_179383842110656/croot/triton_1793838483519/work
+typing_extensions @ file:///home/task_179201597096378/croot/typing_extensions_1792016004608/work
+tzdata==2026.6
+ultralytics==8.4.214
+ultralytics-platform==0.1.111
+ultralytics-thop==2.2.5
+urllib3==2.8.0

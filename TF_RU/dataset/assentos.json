@@ -1,0 +1,31 @@
+{
+  "image_size": [
+    1280,
+    720
+  ],
+  "anchors_hip_px": {
+    "S1": [
+      131,
+      651
+    ],
+    "S2": [
+      118,
+      595
+    ],
+    "S3": [
+      110,
+      548
+    ],
+    "S4": [
+      104,
+      500
+    ]
+  },
+  "radius_px": [
+    27,
+    20
+  ],
+  "keypoint_conf": 0.4,
+  "min_shoulder_hip_dy": 25,
+  "note": "Regi\u00f5es definidas geometricamente na c\u00e2mera; cadeira m\u00f3vel e perspectiva imp\u00f5em incerteza. N\u00e3o h\u00e1 identifica\u00e7\u00e3o facial."
+}

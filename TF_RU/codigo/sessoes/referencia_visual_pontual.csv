@@ -1,0 +1,25 @@
+t_s,assento,ocupado_referencia,origem
+0,S1,0,Inspeção visual assistida; requer revisão do autor
+0,S2,0,Inspeção visual assistida; requer revisão do autor
+0,S3,0,Inspeção visual assistida; requer revisão do autor
+0,S4,1,Inspeção visual assistida; requer revisão do autor
+1800,S1,0,Inspeção visual assistida; requer revisão do autor
+1800,S2,0,Inspeção visual assistida; requer revisão do autor
+1800,S3,1,Inspeção visual assistida; requer revisão do autor
+1800,S4,1,Inspeção visual assistida; requer revisão do autor
+3600,S1,1,Inspeção visual assistida; requer revisão do autor
+3600,S2,1,Inspeção visual assistida; requer revisão do autor
+3600,S3,0,Inspeção visual assistida; requer revisão do autor
+3600,S4,1,Inspeção visual assistida; requer revisão do autor
+5400,S1,0,Inspeção visual assistida; requer revisão do autor
+5400,S2,1,Inspeção visual assistida; requer revisão do autor
+5400,S3,0,Inspeção visual assistida; requer revisão do autor
+5400,S4,1,Inspeção visual assistida; requer revisão do autor
+7200,S1,1,Inspeção visual assistida; requer revisão do autor
+7200,S2,0,Inspeção visual assistida; requer revisão do autor
+7200,S3,1,Inspeção visual assistida; requer revisão do autor
+7200,S4,0,Inspeção visual assistida; requer revisão do autor
+10790,S1,0,Inspeção visual assistida; requer revisão do autor
+10790,S2,1,Inspeção visual assistida; requer revisão do autor
+10790,S3,0,Inspeção visual assistida; requer revisão do autor
+10790,S4,0,Inspeção visual assistida; requer revisão do autor

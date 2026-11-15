@@ -1,0 +1,6 @@
+ultralytics==8.4.214
+opencv-python>=4.10,<6
+lap>=0.5.12
+scipy>=1.11
+matplotlib>=3.8
+

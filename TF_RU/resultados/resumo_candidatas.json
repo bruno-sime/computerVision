@@ -1,0 +1,34 @@
+[
+  {
+    "config": "A",
+    "candidate_count": 46,
+    "complete_candidates": 45,
+    "mean_span_min": 3.1648148148148145,
+    "median_span_min": 2.0,
+    "note": "Intervalos candidatos de ocupação: não média validada de estudantes."
+  },
+  {
+    "config": "B",
+    "candidate_count": 60,
+    "complete_candidates": 59,
+    "mean_span_min": 2.754237288135594,
+    "median_span_min": 1.8333333333333333,
+    "note": "Intervalos candidatos de ocupação: não média validada de estudantes."
+  },
+  {
+    "config": "C",
+    "candidate_count": 46,
+    "complete_candidates": 45,
+    "mean_span_min": 3.188888888888888,
+    "median_span_min": 1.9166666666666667,
+    "note": "Intervalos candidatos de ocupação: não média validada de estudantes."
+  },
+  {
+    "config": "D",
+    "candidate_count": 46,
+    "complete_candidates": 45,
+    "mean_span_min": 3.1648148148148145,
+    "median_span_min": 2.0,
+    "note": "Intervalos candidatos de ocupação: não média validada de estudantes."
+  }
+]

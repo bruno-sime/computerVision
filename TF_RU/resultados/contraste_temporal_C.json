@@ -1,0 +1,30 @@
+[
+  {
+    "case": "R1",
+    "overlapping_candidates": 1,
+    "reference_mid_minutes": 4.0,
+    "covered_reference_seconds": 215.0,
+    "largest_overlap_seconds": 215.0
+  },
+  {
+    "case": "R2",
+    "overlapping_candidates": 1,
+    "reference_mid_minutes": 15.0,
+    "covered_reference_seconds": 760.0,
+    "largest_overlap_seconds": 760.0
+  },
+  {
+    "case": "R3",
+    "overlapping_candidates": 3,
+    "reference_mid_minutes": 11.0,
+    "covered_reference_seconds": 570.0,
+    "largest_overlap_seconds": 420.0
+  },
+  {
+    "case": "R4",
+    "overlapping_candidates": 3,
+    "reference_mid_minutes": 7.0,
+    "covered_reference_seconds": 355.0,
+    "largest_overlap_seconds": 185.0
+  }
+]

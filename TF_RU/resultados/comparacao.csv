@@ -1,0 +1,5 @@
+experimento,model,step,gap,imagens,ids,ids_menos30s,percent_ids_menos30s,ids_10min_ou_mais,mediana_intervalo_id_s,deteccoes,deteccoes_por_imagem,maior_gap_amostragem_s,tempo_execucao_s
+A_x_2fps_gap15,yolo11x-pose.pt,0.5,15.0,21597,4280,3034,70.89,161,9.0,575929,26.667,0.632,364.613
+B_m_2fps_gap15,yolo11m-pose.pt,0.5,15.0,21597,4883,3416,69.96,138,9.49,565098,26.166,0.632,387.34
+C_x_5fps_gap15,yolo11x-pose.pt,0.2,15.0,53992,7203,5534,76.83,122,6.8,1475412,27.326,0.303,912.945
+D_x_2fps_gap5,yolo11x-pose.pt,0.5,5.0,21597,5677,4447,78.33,141,6.5,569401,26.365,0.632,357.073

@@ -1,0 +1,14 @@
+{
+  "recording": "Video_1.mp4",
+  "duration_s": 10798.357,
+  "width": 1280,
+  "height": 720,
+  "frames": 107981,
+  "approximate_fps": 10,
+  "start_time_user_reported": "11:00:00",
+  "sha256": "7d8ea50662fad8b1c4ef7c2a2853931f24df26b5010d2cff58a4b16d790e9cc0",
+  "file_size_bytes": 1562926905,
+  "source": "Gravação fornecida pelo autor; câmera de restaurante universitário; sexta-feira, data de captura não documentada no arquivo desta entrega.",
+  "access": "Vídeo bruto não distribuído neste pacote. Reprodução integral depende de acesso à gravação original.",
+  "annotations": "Referências de inspeção visual assistida por modelo multimodal, não anotação humana independente; requerem revisão do autor."
+}
